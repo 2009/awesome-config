@@ -1,0 +1,7 @@
+[submodule "lain"]
+	path = lain
+	url = http://github.com/copycat-killer/lain.git
+
+[submodule "freedesktop"]
+	path = freedesktop
+	url = http://github.com/copycat-killer/awesome-freedesktop.git
