@@ -8,6 +8,7 @@
 -- {{{ Required libraries
 local gears     = require("gears")
 local awful     = require("awful")
+local escape_f  = require("awful.util").escape
 awful.rules     = require("awful.rules")
                   require("awful.autofocus")
 local wibox     = require("wibox")
@@ -165,19 +166,42 @@ pause_icon:set_image(beautiful.pause)
 play_pause_icon = wibox.widget.imagebox()
 play_pause_icon:set_image(beautiful.play)
 
-mpriswidget = lain.widgets.mpris({
-    timeout = 1,
-    settings = function ()
+mpriswidget = lain.widgets.abase({
+    cmd = "playerctl status && playerctl metadata",
+		timeout = 1,
+    settings = function()
+         mpris_now = {
+             state        = "N/A",
+             artist       = "N/A",
+             title        = "N/A",
+             art_url      = "N/A",
+             album        = "N/A",
+             album_artist = "N/A"
+         }
+
+         mpris_now.state = string.match(output, "Playing") or
+                           string.match(output, "Paused")  or
+                           "not_found"
+
+         for k, v in string.gmatch(output, "'[^:]+:([^']+)':[%s]<%[?'([^']+)'%]?>") do
+             if     k == "artUrl"      then mpris_now.art_url      = v
+             elseif k == "artist"      then mpris_now.artist       = escape_f(v)
+             elseif k == "title"       then mpris_now.title        = escape_f(v)
+             elseif k == "album"       then mpris_now.album        = escape_f(v)
+             elseif k == "albumArtist" then mpris_now.album_artist = escape_f(v)
+             end
+         end
+
         mpris_now.artist = mpris_now.artist:upper():gsub("&.-;", string.lower)
         mpris_now.title = mpris_now.title:upper():gsub("&.-;", string.lower)
 
-        if mpris_now.state == "play" then
+        if mpris_now.state == "Playing" then
             widget:set_markup(markup.font("Tamsyn 4", " ")
                               .. markup.font("Tamsyn 8", mpris_now.artist
                               .. " - " ..  mpris_now.title
                               .. markup.font("Tamsyn 10", " ")))
             play_pause_icon:set_image(beautiful.pause)
-        elseif mpris_now.state == "pause" then
+        elseif mpris_now.state == "Paused" then
             widget:set_markup(markup.font("Tamsyn 4", " ")
                               .. markup.font("Tamsyn 8",
                               "[PAUSED] " .. mpris_now.artist
@@ -190,7 +214,6 @@ mpriswidget = lain.widgets.mpris({
         end
     end
 })
-
 musicwidget = wibox.widget.background()
 musicwidget:set_widget(mpriswidget)
 musicwidget:set_bgimage(beautiful.widget_bg)
@@ -445,13 +468,13 @@ for s = 1, screen.count() do
     --right_layout:add(mailwidget)
     --right_layout:add(batwidget)
     right_layout:add(spr_right)
+    right_layout:add(mpris_icon)
+    right_layout:add(musicwidget)
+    right_layout:add(bar)
     right_layout:add(prev_icon)
     right_layout:add(next_icon)
     right_layout:add(stop_icon)
     right_layout:add(play_pause_icon)
-    right_layout:add(bar)
-    right_layout:add(mpris_icon)
-    right_layout:add(musicwidget)
     right_layout:add(bar)
     right_layout:add(spr_very_small)
     right_layout:add(volumewidget)
