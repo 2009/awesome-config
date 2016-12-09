@@ -326,6 +326,26 @@ sysloadwidget = wibox.widget.background()
 sysloadwidget:set_widget(sysload_widget)
 sysloadwidget:set_bgimage(beautiful.widget_bg)
 
+-- Uptime
+uptime_widget = lain.widgets.abase({
+		cmd = "cat /proc/uptime",
+		timeout = 1,
+    settings = function()
+
+			-- Get system uptime
+			local up = math.floor(string.match(output, "[%d]+"))
+			local days    = math.floor(up   / (3600 * 24))
+			local hours   = math.floor((up  % (3600 * 24)) / 3600)
+			local minutes = math.floor(((up % (3600 * 24)) % 3600) / 60)
+
+			widget:set_markup( " " .. days .. "D " .. hours .. "H " .. minutes .. "M ")
+			
+    end
+})
+uptimewidget = wibox.widget.background()
+uptimewidget:set_widget(uptime_widget)
+uptimewidget:set_bgimage(beautiful.widget_bg)
+
 -- Net
 -- TODO change look to it takes up less space and has better icons
 netdown_icon = wibox.widget.imagebox()
@@ -502,6 +522,7 @@ for s = 1, screen.count() do
 
     -- Widgets that are aligned to the bottom right
     bottom_right_layout = wibox.layout.fixed.horizontal()
+    bottom_right_layout:add(uptimewidget)
     bottom_right_layout:add(spr_bottom_right)
     bottom_right_layout:add(netdown_icon)
     bottom_right_layout:add(networkwidget)
