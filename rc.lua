@@ -295,7 +295,7 @@ temp_widget = lain.widgets.temp({
     settings = function()
         widget:set_text(" " .. math.floor(coretemp_now) .. "°C ")
     end,
-    tempfile = '/sys/class/hwmon/hwmon1/temp1_input',
+    tempfile = '/sys/class/hwmon/hwmon0/temp1_input',
 		timeout = 1
 })
 tempwidget = wibox.widget.background()
@@ -318,7 +318,7 @@ mem_icon:set_image(beautiful.cpu)
 -- System Load
 sysload_widget = lain.widgets.sysload({
     settings = function()
-        widget:set_markup(space3 .. load_15
+        widget:set_markup(" " .. load_15
                           .. markup.font("Tamsyn 5", " "))
     end
 })
@@ -338,7 +338,7 @@ uptime_widget = lain.widgets.abase({
 			local hours   = math.floor((up  % (3600 * 24)) / 3600)
 			local minutes = math.floor(((up % (3600 * 24)) % 3600) / 60)
 
-			widget:set_markup( " " .. days .. "D " .. hours .. "H " .. minutes .. "M ")
+			widget:set_markup( " " .. days .. "d " .. hours .. "h " .. minutes .. "m ")
 			
     end
 })
@@ -354,7 +354,7 @@ netup_icon = wibox.widget.imagebox()
 netup_icon:set_image(beautiful.net_up)
 netwidget = lain.widgets.net({
     settings = function()
-        widget:set_markup(markup.font("Tamsyn 1", " ") .. net_now.received .. " - "
+        widget:set_markup(markup.font("Tamsyn 1", " ") .. net_now.received .. "  "
                           .. net_now.sent .. space2)
     end
 })
@@ -522,8 +522,9 @@ for s = 1, screen.count() do
 
     -- Widgets that are aligned to the bottom right
     bottom_right_layout = wibox.layout.fixed.horizontal()
-    bottom_right_layout:add(uptimewidget)
     bottom_right_layout:add(spr_bottom_right)
+    bottom_right_layout:add(uptimewidget)
+    bottom_right_layout:add(bottom_bar)
     bottom_right_layout:add(netdown_icon)
     bottom_right_layout:add(networkwidget)
     bottom_right_layout:add(netup_icon)
