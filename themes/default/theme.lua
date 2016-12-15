@@ -1,32 +1,46 @@
 --[[
                                 
-     Holo Awesome WM config 2.0 
-     github.com/copycat-killer  
+        Default Theme
                                 
 --]]
 
 theme                               = {}
 
 theme.icon_dir                      = os.getenv("HOME") .. "/.config/awesome/themes/default/icons"
-
 theme.wallpaper                     = os.getenv("HOME") .. "/.config/awesome/themes/default/MTG-Hydra-1920x1080.jpg"
-
 theme.topbar_path                   = "png:" .. theme.icon_dir .. "/topbar/"
 
+-- colorscheme
+theme.blue                          = "#0099CC"
+theme.blue_light                    = "#80CCE6"
+theme.blue_very_light               = "#4CB7DB"
+theme.grey                          = "#383838"
+theme.grey_light                    = "#757575"
+theme.grey_dark                     = "#242424"
+theme.grey_very_dark                = "#2A1F1E"
+theme.green                         = "#EE6D5A"
+theme.red                           = "#92C739"
+theme.red_pale                      = "#FF9F9F"
+theme.pink                          = "#CC9393"
+theme.white                         = "#FFFFFF"
+
+-- beautiful
 theme.font                          = "Tamsyn 10.5"
 theme.taglist_font                  = "Tamsyn 8"
-theme.fg_normal                     = "#FFFFFF"
-theme.fg_focus                      = "#0099CC"
-theme.bg_normal                     = "#242424"
-theme.fg_urgent                     = "#CC9393"
-theme.bg_urgent                     = "#2A1F1E"
+theme.fg_normal                     = theme.white
+theme.fg_focus                      = theme.blue
+theme.bg_normal                     = theme.grey_dark
+theme.fg_urgent                     = theme.pink
+theme.bg_urgent                     = theme.grey_very_dark
 theme.border_width                  = "1"
-theme.border_normal                 = "#252525"
-theme.border_focus                  = "#0099CC"
-theme.taglist_fg_focus              = "#FFFFFF"
+theme.border_normal                 = theme.grey_dark
+theme.border_focus                  = theme.blue
+theme.taglist_bg_empty              = "png:" .. theme.icon_dir .. "/taglist_bg_empty.png"
+theme.taglist_bg_occupied           = "png:" .. theme.icon_dir .. "/taglist_bg_empty.png"
+theme.taglist_fg_focus              = theme.white
 theme.taglist_bg_focus              = "png:" .. theme.icon_dir .. "/taglist_bg_focus.png"
-theme.tasklist_bg_normal            = "#222222"
-theme.tasklist_fg_focus             = "#4CB7DB"
+theme.tasklist_bg_normal            = theme.grey_dark
+theme.tasklist_fg_focus             = theme.blue_very_light
 theme.tasklist_bg_focus             = "png:" .. theme.icon_dir .. "/bg_focus_noline.png"
 theme.textbox_widget_margin_top     = 1
 theme.awful_widget_height           = 14
@@ -34,36 +48,35 @@ theme.awful_widget_margin_top       = 2
 theme.menu_height                   = "20"
 theme.menu_width                    = "400"
 
+-- widget colors
+theme.widget_label                  = theme.grey_light
+theme.widget_fg                     = theme.white
+theme.widget_netdown                = theme.red
+theme.widget_netup                  = theme.green
+theme.widget_mpris_artist           = theme.blue
+theme.widget_mpris_status           = theme.blue_light
+theme.widget_vol_bg                 = theme.grey
+theme.widget_vol_fg                 = theme.blue_light
+theme.widget_vol_mute               = theme.red_pale
+theme.widget_battery                = theme.blue_light
+
+-- other colors
+theme.border_focus                  = theme.blue
+
+-- images
 theme.widget_bg                     = theme.icon_dir .. "/bg_focus_noline.png"
 theme.awesome_icon                  = theme.icon_dir .. "/awesome_icon.png"
-theme.vol_bg                        = theme.icon_dir .. "/vol_bg.png"
 theme.submenu_icon                  = theme.icon_dir .. "/submenu.png"
 theme.taglist_squares_sel           = theme.icon_dir .. "/square_sel.png"
 theme.taglist_squares_unsel         = theme.icon_dir .. "/square_unsel.png"
-theme.last                          = theme.icon_dir .. "/last.png"
 theme.spr                           = theme.icon_dir .. "/spr.png"
-theme.spr_small                     = theme.icon_dir .. "/spr_small.png"
-theme.spr_very_small                = theme.icon_dir .. "/spr_very_small.png"
-theme.spr_right                     = theme.icon_dir .. "/spr_right.png"
-theme.spr_bottom_right              = theme.icon_dir .. "/spr_bottom_right.png"
-theme.spr_left                      = theme.icon_dir .. "/spr_left.png"
 theme.bar                           = theme.icon_dir .. "/bar.png"
 theme.bottom_bar                    = theme.icon_dir .. "/bottom_bar.png"
-theme.mpd                           = theme.icon_dir .. "/mpd.png"
-theme.mpd_on                        = theme.icon_dir .. "/mpd_on.png"
 theme.prev                          = theme.icon_dir .. "/prev.png"
 theme.nex                           = theme.icon_dir .. "/next.png"
 theme.stop                          = theme.icon_dir .. "/stop.png"
 theme.pause                         = theme.icon_dir .. "/pause.png"
 theme.play                          = theme.icon_dir .. "/play.png"
-theme.clock                         = theme.icon_dir .. "/clock.png"
-theme.calendar                      = theme.icon_dir .. "/cal.png"
-theme.cpu                           = theme.icon_dir .. "/cpu.png"
-theme.temp                          = theme.icon_dir .. "/cpu.png"
-theme.fs                            = theme.icon_dir .. "/cpu.png"
-theme.net_up                        = theme.icon_dir .. "/net_up.png"
-theme.net_down                      = theme.icon_dir .. "/net_down.png"
-theme.widget_mail_notify            = theme.icon_dir .. "/mail_notify.png"
 
 theme.layout_tile                   = theme.icon_dir .. "/tile.png"
 theme.layout_tilegaps               = theme.icon_dir .. "/tilegaps.png"
