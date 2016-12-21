@@ -247,22 +247,24 @@ function ()
     async.request("playerctl play-pause", mpriswidget.update);
 end)))
 
---[[ Battery
-batwidget = lain.widgets.bat({
+-- Battery
+batterywidget = lain.widgets.bat({
     settings = function()
-        bat_header = " Bat "
+        bat_header = space .. widget_label("BAT")
         bat_p      = bat_now.perc .. space
         if bat_now.ac_status == 1 then
-            bat_p = bat_p .. "Plugged "
+            bat_p = bat_p .. "Plugged" .. space
         end
         widget:set_markup(markup(beautiful.widget_battery, bat_header) .. bat_p)
     end
 })
---]]
+batwidget = wibox.widget.background()
+batwidget:set_widget(batterywidget)
+batwidget:set_bgimage(beautiful.widget_bg)
 
 -- PulseAudio volume bar
-myvolumebar = lain.widgets.pulsebar({
-    sink   = 1,
+pulsebar = lain.widgets.pulsebar({
+    sink   = 0,
     ticks  = true,
     step   = "5%",
     width  = 80,
@@ -278,7 +280,7 @@ myvolumebar = lain.widgets.pulsebar({
         bar_size  = 32
     }
 })
-volmargin = wibox.layout.margin(myvolumebar.bar, 0, 5, 80)
+volmargin = wibox.layout.margin(pulsebar.bar, 0, 5, 80)
 wibox.layout.margin.set_top(volmargin, 12)
 wibox.layout.margin.set_bottom(volmargin, 12)
 volumewidget = wibox.widget.background()
@@ -490,7 +492,6 @@ for s = 1, screen.count() do
     local right_layout = wibox.layout.fixed.horizontal()
     if s == 1 then right_layout:add(wibox.widget.systray()) end
     --right_layout:add(mailwidget)
-    --right_layout:add(batwidget)
     right_layout:add(spr)
     right_layout:add(musicwidget)
     right_layout:add(widgetspace)
@@ -505,6 +506,8 @@ for s = 1, screen.count() do
     right_layout:add(widgetspace)
     right_layout:add(volumewidget)
     right_layout:add(widgetspace)
+    right_layout:add(spr)
+    right_layout:add(batwidget)
     right_layout:add(spr)
     right_layout:add(calendarwidget)
     right_layout:add(widgetspace)
@@ -685,7 +688,24 @@ globalkeys = awful.util.table.join(
                   mypromptbox[mouse.screen].widget,
                   awful.util.eval, nil,
                   awful.util.getdir("cache") .. "/history_eval")
-              end)
+              end),
+
+    --{{ Laptop Specific
+
+    -- Brightness keys
+    awful.key({}, "XF86MonBrightnessUp", function () os.execute("xbacklight -inc 10") end),
+    awful.key({}, "XF86MonBrightnessDown", function () os.execute("xbacklight -dec 10") end),
+
+    -- Volume Keys
+    awful.key({}, "XF86AudioRaiseVolume", function()
+      os.execute(string.format("pactl set-sink-volume %d +%s", pulsebar.sink, pulsebar.step))
+      pulsebar.update()
+    end),
+    awful.key({}, "XF86AudioLowerVolume", function()
+      os.execute(string.format("pactl set-sink-volume %d -%s", pulsebar.sink, pulsebar.step))
+      pulsebar.update()
+    end)
+    --}}
 )
 
 clientkeys = awful.util.table.join(
