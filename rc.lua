@@ -73,28 +73,29 @@ graphics   = "gimp"
 musicplr   = terminal .. " -e ncmpcpp "
 
 local layouts = {
-    lain.layout.uselesstile,
-    awful.layout.suit.fair,
+    --awful.layout.suit.corner.nw,
+    --awful.layout.suit.corner.sw,
     lain.layout.uselesstile.left,
+    awful.layout.suit.tile.left,
     lain.layout.uselesstile.top,
-    lain.layout.centerfair
+    awful.layout.suit.tile.top
 }
 
 -- quake terminal
 -- TODO Can be used for anything, seems that termite is broken with this!!!
 local quakeconsole = {}
 for s = 1, screen.count() do
-   quakeconsole[s] = lain.util.quake({ app = terminal, wibox_height = 32})
+    quakeconsole[s] = lain.util.quake({ app = terminal, wibox_height = 32})
 end
 -- }}}
 
 -- {{{ Tags
 tags = {
-   names = { " WEB ", " DEV ", " TERMINAL ", " FILES ", " OTHER " },
-   layout = { layouts[2], layouts[2], layouts[3], layouts[2], layouts[4] }
+    names = { " WEB ", " DEV ", " TERMINAL ", " FILES ", " OTHER " },
+    layout = { layouts[2], layouts[2], layouts[2], layouts[2], layouts[4] }
 }
 for s = 1, screen.count() do
-   tags[s] = awful.tag(tags.names, s, tags.layout)
+    tags[s] = awful.tag(tags.names, s, tags.layout)
 end
 -- }}}
 
