@@ -25,8 +25,8 @@ theme.pink                          = "#CC9393"
 theme.white                         = "#FFFFFF"
 
 -- beautiful
-theme.font                          = "Tamsyn 10.5"
-theme.taglist_font                  = "Tamsyn 8"
+theme.font                          = "Misc Tamsyn 10.5"
+theme.taglist_font                  = "Misc Tamsyn 8"
 theme.fg_normal                     = theme.white
 theme.fg_focus                      = theme.blue
 theme.bg_normal                     = theme.grey_dark
