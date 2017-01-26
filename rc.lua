@@ -5,14 +5,14 @@
                                 
 --]]
 
--- {{{ Required libraries
+---------------------------------------------------------------------
+-- Required Libraries
+---------------------------------------------------------------------
+
 local gears         = require( "gears"           )
 local awful         = require( "awful"           )
 								    	require( "awful.autofocus" )
 local wibox         = require( "wibox"           )
-
--- TODO CHECK
-local escape_f      = require( "awful.util"          ).escape
 local beautiful     = require( "beautiful"           )
 local naughty       = require( "naughty"             )
 local lain          = require( "lain"                )
@@ -23,9 +23,11 @@ local hotkeys_popup = require( "awful.hotkeys_popup" ).widget
 
 local mpris   = require( "mpris" )
 local widgets = require( "widgets" )
--- }}}
 
--- {{{ Error handling
+---------------------------------------------------------------------
+-- Error Handling
+---------------------------------------------------------------------
+
 if awesome.startup_errors then
   naughty.notify({
     preset = naughty.config.presets.critical,
@@ -48,9 +50,11 @@ do
     in_error = false
   end)
 end
--- }}}
 
--- {{{ Autostart applications
+---------------------------------------------------------------------
+-- Autostart Applications
+---------------------------------------------------------------------
+
 local function run_once(cmd)
   findme = cmd
   firstspace = cmd:find(" ")
@@ -63,9 +67,10 @@ end
 -- TODO autostart
 --run_once("urxvtd")
 --run_once("unclutter -root")
--- }}}
 
--- {{{ Variable definitions
+---------------------------------------------------------------------
+-- Variable Definitions
+---------------------------------------------------------------------
 
 -- beautiful init
 beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/default/theme.lua")
@@ -93,31 +98,26 @@ awful.layout.layouts = {
   awful.layout.suit.tile.top
 }
 
--- {{{ Theme
+---------------------------------------------------------------------
+-- Helpers
+---------------------------------------------------------------------
 
 -- Format all widget labels the same
-local function widget_label(label_text, color)
-  return markup(color or beautiful.widget_label, label_text)
-end
-
 local function label_widget(text, color)
   local text   = markup(color or beautiful.widget_label, text)
   local widget = wibox.widget.textbox(text)
-  local margin = wibox.container.margin(widget, 10, 0, 0, 0)
+  local background = wibox.container.background(widget, beautiful.widget_bg_color, shape.rectangle)
+  local margin = wibox.container.margin(background, 10, 0, 0, 0, beautiful.widget_bg_color)
   return margin
 end
--- }}}
-
--- {{{ Wibox
 
 -- Adds a container around a widget to set the background color
 -- With margin
 local function widget_bg(widget)
   local inner = wibox.container.background(widget, beautiful.widget_bg_color, shape.rectangle)
-  local margin = wibox.container.margin(inner, 10, 10, 0, 0, beautiful.grey_darker)
+  local margin = wibox.container.margin(inner, 10, 10, 0, 0, beautiful.widget_bg_color)
   return margin
 end
---]]
 
 -- TODO use for tags!
 local function widget_bg2(widget)
@@ -126,17 +126,18 @@ local function widget_bg2(widget)
   return margin
 end
 
+---------------------------------------------------------------------
 -- Separators
+---------------------------------------------------------------------
+
 local spr = wibox.widget.base.make_widget()
 spr.draw = function(self, context, cr, width, height)
-
   -- Cairo Drawing!!!
 
   -- BG
   cr:set_source(gears.color(beautiful.grey_darker))
   cr:rectangle(0, 0, width, height)
   cr:fill()
-  --]]
 
   -- Bar
   rwidth = 2
@@ -155,9 +156,11 @@ end
 spr.fit = function(self, context, width, height)
   return 10, 10
 end
---spr = widget_bg(spr)
 
--- Taglist and Tasklist mouse controls
+---------------------------------------------------------------------
+-- Taglist & Tasklist Mouse Controls
+---------------------------------------------------------------------
+
 local taglist_buttons = awful.util.table.join(
   awful.button({ }, 1, function(t) t:view_only() end),
   awful.button({ modkey }, 1, function(t)
@@ -196,6 +199,10 @@ local tasklist_buttons = awful.util.table.join(
 	awful.button({ }, 5, function () awful.client.focus.byidx(-1) end)
 )
 
+---------------------------------------------------------------------
+-- Wallpaper
+---------------------------------------------------------------------
+
 local function set_wallpaper(s)
     -- Wallpaper
     if beautiful.wallpaper then
@@ -211,6 +218,10 @@ end
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 screen.connect_signal("property::geometry", set_wallpaper)
 
+---------------------------------------------------------------------
+-- Local Widget Variables & Setup
+---------------------------------------------------------------------
+
 -- Local Widget Variablse
 local date    = wibox.layout.fixed.horizontal( label_widget("DATE"), widget_bg(widgets.date)    )
 local storage = wibox.layout.fixed.horizontal( label_widget("HDD"),  widget_bg(widgets.storage) )
@@ -219,6 +230,9 @@ local storage = wibox.layout.fixed.horizontal( label_widget("HDD"),  widget_bg(w
 widgets.attach_calendar(date)
 widgets.attach_storage(storage)
 
+---------------------------------------------------------------------
+-- Setup Wibox & Screens
+---------------------------------------------------------------------
 
 -- Create a wibox for each screen and add it
 awful.screen.connect_for_each_screen(function(s)
@@ -308,8 +322,6 @@ awful.screen.connect_for_each_screen(function(s)
         widget_bg(widgets.memory),
         spr,
         storage
-        --label_widget("HDD"),
-        --widget_bg(widgets.storage),
       }
     }
 
@@ -317,17 +329,22 @@ awful.screen.connect_for_each_screen(function(s)
     -- Create a borderbox above the bottomwibox
     --lain.widgets.borderbox(mybottomwibox[s], s, { position = "top", color = beautiful.border_focus } )
 end)
--- }}}
 
--- {{{ Mouse bindings
+---------------------------------------------------------------------
+-- Mouse Controls
+---------------------------------------------------------------------
+
 root.buttons(awful.util.table.join(
   awful.button({ }, 4, awful.tag.viewnext),
   awful.button({ }, 5, awful.tag.viewprev)
 ))
--- }}}
 
--- {{{ Key bindings
+---------------------------------------------------------------------
+-- Keybindings
+---------------------------------------------------------------------
+
 globalkeys = awful.util.table.join(
+
     -- Take a screenshot
     -- https://github.com/copycat-killer/dots/blob/master/bin/screenshot
     awful.key({ altkey }, "p", function() os.execute("screenshot") end),
@@ -516,10 +533,13 @@ clientbuttons = awful.util.table.join(
 
 -- Set keys
 root.keys(globalkeys)
--- }}}
 
--- {{{ Rules
+---------------------------------------------------------------------
+-- Rules
+---------------------------------------------------------------------
+
 awful.rules.rules = {
+
   -- All clients will match this rule.
   { rule = { },
     properties = {
@@ -552,15 +572,17 @@ awful.rules.rules = {
 
   { rule = { class = "Gimp" },
         properties = { tag = tags[1][5] } },
-  --]]
-
   { rule = { class = "Gimp", role = "gimp-image-window" },
         properties = { maximized_horizontal = true,
                        maximized_vertical = true } },
-}
--- }}}
+  --]]
 
--- {{{ Signals
+}
+
+---------------------------------------------------------------------
+-- Signals
+---------------------------------------------------------------------
+
 -- Signal function to execute when a new client appears.
 client.connect_signal("manage", function (c)
   -- Set the windows at the slave,
