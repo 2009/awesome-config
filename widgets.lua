@@ -187,15 +187,18 @@ end
 ---------------------------------------------------------------------
 -- PulsAudio Volume Bar
 ---------------------------------------------------------------------
+-- TODO Update the sink when pluggin in headphones or changing the default
+-- TODO Do I want to display the notification?
 
--- TODO
+local step = "5%"
+local mixer = 'pavucontrol'
+
 local pulsebar = lain.widgets.pulsebar {
-  sink   = 0,
+  sink   = 1,
   ticks  = true,
-  -- ticks_size = 7,
+  ticks_size = 3,
   width  = 80,
   followtag = true,
-  --height = 10,
   colors = {
     -- TODO cleanup vars
     background = beautiful.widget_vol_bg,
@@ -209,15 +212,34 @@ local pulsebar = lain.widgets.pulsebar {
   }
 }
 
--- TODO Add key and mouse controls
--- TODO open pavucontrol on click, mute on right click, 100% on middle click
--- TODO call update and notify!
--- TODO step   = "5%",
---
---
--- TODO Update the sink when pluggin in headphones or changing the default
+-- Mouse controls
+pulsebar.bar:buttons(awful.util.table.join(
+	 awful.button({}, 1, function()
+		 awful.util.spawn(mixer)
+	 end),
+	 awful.button({}, 2, function()
+		 awful.util.spawn(string.format("pactl set-sink-volume %d 100%%", pulsebar.sink))
+		 pulsebar.update()
+		 pulsebar.notify()
+	 end),
+	 awful.button({}, 3, function()
+		 awful.util.spawn(string.format("pactl set-sink-mute %d toggle", pulsebar.sink))
+		 pulsebar.update()
+		 pulsebar.notify()
+	 end),
+	 awful.button({}, 4, function()
+		 awful.util.spawn(string.format("pactl set-sink-volume %d +%s", pulsebar.sink, step))
+		 pulsebar.update()
+		 pulsebar.notify()
+	 end),
+	 awful.button({}, 5, function()
+		 awful.util.spawn(string.format("pactl set-sink-volume %d -%s", pulsebar.sink, step))
+		 pulsebar.update()
+		 pulsebar.notify()
+	 end)
+))
 
-module.volume = pulsebar.bar
+module.volume = wibox.container.margin(pulsebar.bar, 0, 0, 10, 10)
 
 return module
 

@@ -6,6 +6,14 @@
 --]]
 
 ---------------------------------------------------------------------
+-- TODO Hotkeys popup
+-- TODO Cleanup styling widget labels and widgets
+-- TODO Remove dependency on images for tag background
+-- TODO Add missing corner layout image
+-- TODO Update media icons to not have AA and have transparent backgrounds
+---------------------------------------------------------------------
+
+---------------------------------------------------------------------
 -- Required Libraries
 ---------------------------------------------------------------------
 
@@ -325,9 +333,6 @@ awful.screen.connect_for_each_screen(function(s)
       }
     }
 
-    -- TODO
-    -- Create a borderbox above the bottomwibox
-    --lain.widgets.borderbox(mybottomwibox[s], s, { position = "top", color = beautiful.border_focus } )
 end)
 
 ---------------------------------------------------------------------
