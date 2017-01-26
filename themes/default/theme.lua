@@ -14,8 +14,9 @@ theme.topbar_path                   = "png:" .. theme.icon_dir .. "/topbar/"
 theme.blue                          = "#0099CC"
 theme.blue_light                    = "#80CCE6"
 theme.blue_very_light               = "#4CB7DB"
-theme.grey                          = "#383838"
 theme.grey_light                    = "#757575"
+theme.grey                          = "#383838"
+theme.grey_darker                   = "#292929"
 theme.grey_dark                     = "#242424"
 theme.grey_very_dark                = "#2A1F1E"
 theme.green                         = "#EE6D5A"
@@ -23,6 +24,8 @@ theme.red                           = "#92C739"
 theme.red_pale                      = "#FF9F9F"
 theme.pink                          = "#CC9393"
 theme.white                         = "#FFFFFF"
+
+theme.widget_bg_color = theme.grey_darker
 
 -- beautiful
 theme.font                          = "Misc Tamsyn 10.5"
@@ -53,12 +56,20 @@ theme.widget_label                  = theme.grey_light
 theme.widget_fg                     = theme.white
 theme.widget_netdown                = theme.red
 theme.widget_netup                  = theme.green
-theme.widget_mpris_artist           = theme.blue
-theme.widget_mpris_status           = theme.blue_light
 theme.widget_vol_bg                 = theme.grey
 theme.widget_vol_fg                 = theme.blue_light
 theme.widget_vol_mute               = theme.red_pale
 theme.widget_battery                = theme.blue_light
+
+theme.mpris = {}
+theme.mpris.font = "Misc Tamsyn 8"
+theme.mpris.artist = theme.blue
+theme.mpris.status = theme.blue_light
+theme.mpris.prev   = theme.icon_dir .. "/prev.png"
+theme.mpris.next   = theme.icon_dir .. "/next.png"
+theme.mpris.stop   = theme.icon_dir .. "/stop.png"
+theme.mpris.pause  = theme.icon_dir .. "/pause.png"
+theme.mpris.play   = theme.icon_dir .. "/play.png"
 
 -- other colors
 theme.border_focus                  = theme.blue
@@ -72,11 +83,6 @@ theme.taglist_squares_unsel         = theme.icon_dir .. "/square_unsel.png"
 theme.spr                           = theme.icon_dir .. "/spr.png"
 theme.bar                           = theme.icon_dir .. "/bar.png"
 theme.bottom_bar                    = theme.icon_dir .. "/bottom_bar.png"
-theme.prev                          = theme.icon_dir .. "/prev.png"
-theme.nex                           = theme.icon_dir .. "/next.png"
-theme.stop                          = theme.icon_dir .. "/stop.png"
-theme.pause                         = theme.icon_dir .. "/pause.png"
-theme.play                          = theme.icon_dir .. "/play.png"
 
 theme.layout_tile                   = theme.icon_dir .. "/tile.png"
 theme.layout_tilegaps               = theme.icon_dir .. "/tilegaps.png"
