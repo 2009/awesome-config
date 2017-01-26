@@ -110,29 +110,45 @@ awful.layout.layouts = {
 -- Helpers
 ---------------------------------------------------------------------
 
--- Format all widget labels the same
-local function label_widget(text, color)
-  local text   = markup(color or beautiful.widget_label, text)
-  local widget = wibox.widget.textbox(text)
-  local background = wibox.container.background(widget, beautiful.widget_bg_color, shape.rectangle)
-  local margin = wibox.container.margin(background, 10, 0, 0, 0, beautiful.widget_bg_color)
-  return margin
+-- Format all widget labels and spacing the same
+-- Can pass in a text string which will get converted to a label widget
+local function widget_container(label, ...)
+	local args = { ... }
+	local fg = beautiful.widget_label
+	local bg = beautiful.widget_bg_color
+  local margin_right = 10
+	local widgets = {}
+
+  -- Remove right padding if there is no label
+  if not label then
+    margin_right = 0
+  end
+
+	-- Convert label to a textbox
+	if type(label) == "string" then
+		label = wibox.widget.textbox(label)
+	end
+
+  local label_bg = wibox.container.background(label, bg, shape.rectangle)
+  local label_margin = wibox.container.margin(label_bg, margin_right, 10, 0, 0, bg)
+  label_bg.fg = fg
+
+	-- Add the label to widgets
+	table.insert(widgets, label_margin)
+
+	for i, v in ipairs(args) do
+		local widget = v
+		local widget_bg = wibox.container.background(widget, bg, shape.rectangle)
+		local widget_margin = wibox.container.margin(widget_bg, 0, 10, 0, 0, bg)
+		
+		-- Append to array
+		table.insert(widgets, widget_margin)
+	end
+
+	-- Put the together in a layout
+	return wibox.layout.fixed.horizontal(unpack(widgets))
 end
 
--- Adds a container around a widget to set the background color
--- With margin
-local function widget_bg(widget)
-  local inner = wibox.container.background(widget, beautiful.widget_bg_color, shape.rectangle)
-  local margin = wibox.container.margin(inner, 10, 10, 0, 0, beautiful.widget_bg_color)
-  return margin
-end
-
--- TODO use for tags!
-local function widget_bg2(widget)
-  local inner = wibox.container.background(widget, beautiful.widget_bg_color, shape.rectangle)
-  local margin = wibox.container.margin(inner, 0, 0, 0, 2, beautiful.blue)
-  return margin
-end
 
 ---------------------------------------------------------------------
 -- Separators
@@ -231,8 +247,20 @@ screen.connect_signal("property::geometry", set_wallpaper)
 ---------------------------------------------------------------------
 
 -- Local Widget Variablse
-local date    = wibox.layout.fixed.horizontal( label_widget("DATE"), widget_bg(widgets.date)    )
-local storage = wibox.layout.fixed.horizontal( label_widget("HDD"),  widget_bg(widgets.storage) )
+local time    = widget_container( "TIME",   widgets.time )
+local date    = widget_container( "DATE",   widgets.date )
+local storage = widget_container( "HDD",    widgets.storage )
+local uptime  = widget_container( "UPTIME", widgets.uptime )
+local network = widget_container( "NET",    widgets.network )
+local cpu     = widget_container( "CPU",    widgets.cpu,
+																					  widgets.system_load,
+                                            widgets.temp )
+local memory  = widget_container( "MEM",    widgets.memory )
+local battery = widget_container( "BAT",    widgets.battery )
+local mpris   = widget_container( nil,      mpris.state,
+                                            mpris.now_playing,
+                                            mpris.controls.widget,
+                                            widgets.volume),
 
 -- Attach notification widgets
 widgets.attach_calendar(date)
@@ -287,18 +315,13 @@ awful.screen.connect_for_each_screen(function(s)
 				layout = wibox.layout.fixed.horizontal,
         wibox.widget.systray(),
 				spr,
-				mpris.state,
-				widget_bg(mpris.now_playing),
-        widget_bg(mpris.controls.widget),
-        widget_bg(widgets.volume),
+        mpris,
         spr,
-        label_widget("BAT"),
-        widget_bg(widgets.battery),
+        battery,
         spr,
         date,
         spr,
-        label_widget("TIME"),
-        widget_bg(widgets.time),
+        time
       }
     }
 
@@ -315,19 +338,13 @@ awful.screen.connect_for_each_screen(function(s)
       { -- Right widgets
         layout = wibox.layout.fixed.horizontal,
         spr,
-        label_widget("UPTIME"),
-        widget_bg(widgets.uptime),
+				uptime,
         spr,
-        label_widget("NET"),
-        widget_bg(widgets.network),
+				network,
         spr,
-        label_widget("CPU"),
-        widget_bg(widgets.cpu),
-        widget_bg(widgets.system_load),
-        widget_bg(widgets.temp),
+				cpu,
         spr,
-        label_widget("MEM"),
-        widget_bg(widgets.memory),
+				memory,
         spr,
         storage
       }
