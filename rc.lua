@@ -149,7 +149,6 @@ local function widget_container(label, ...)
 	return wibox.layout.fixed.horizontal(unpack(widgets))
 end
 
-
 ---------------------------------------------------------------------
 -- Separators
 ---------------------------------------------------------------------
@@ -247,24 +246,24 @@ screen.connect_signal("property::geometry", set_wallpaper)
 ---------------------------------------------------------------------
 
 -- Local Widget Variablse
-local time    = widget_container( "TIME",   widgets.time )
-local date    = widget_container( "DATE",   widgets.date )
-local storage = widget_container( "HDD",    widgets.storage )
-local uptime  = widget_container( "UPTIME", widgets.uptime )
-local network = widget_container( "NET",    widgets.network )
-local cpu     = widget_container( "CPU",    widgets.cpu,
-																					  widgets.system_load,
-                                            widgets.temp )
-local memory  = widget_container( "MEM",    widgets.memory )
-local battery = widget_container( "BAT",    widgets.battery )
-local mpris   = widget_container( nil,      mpris.state,
-                                            mpris.now_playing,
-                                            mpris.controls.widget,
-                                            widgets.volume),
+local time_widget    = widget_container( "TIME",   widgets.time )
+local date_widget    = widget_container( "DATE",   widgets.date )
+local storage_widget = widget_container( "HDD",    widgets.storage.widget )
+local uptime_widget  = widget_container( "UPTIME", widgets.uptime.widget )
+local network_widget = widget_container( "NET",    widgets.network.widget )
+local cpu_widget     = widget_container( "CPU",    widgets.cpu.widget,
+                                                   widgets.system_load.widget,
+                                                   widgets.temp.widget )
+local memory_widget  = widget_container( "MEM",    widgets.memory.widget )
+local battery_widget = widget_container( "BAT",    widgets.battery.widget )
+local mpris_widget   = widget_container( nil,      mpris.state.widget,
+                                                   mpris.now_playing.widget,
+                                                   mpris.controls.widget,
+                                                   widgets.volume.widget),
 
 -- Attach notification widgets
-widgets.attach_calendar(date)
-widgets.attach_storage(storage)
+widgets.attach_calendar(date_widget)
+widgets.attach_storage(storage_widget)
 
 ---------------------------------------------------------------------
 -- Setup Wibox & Screens
@@ -315,13 +314,13 @@ awful.screen.connect_for_each_screen(function(s)
 				layout = wibox.layout.fixed.horizontal,
         wibox.widget.systray(),
 				spr,
-        mpris,
+        mpris_widget,
         spr,
-        battery,
+        battery_widget,
         spr,
-        date,
+        date_widget,
         spr,
-        time
+        time_widget
       }
     }
 
@@ -338,15 +337,15 @@ awful.screen.connect_for_each_screen(function(s)
       { -- Right widgets
         layout = wibox.layout.fixed.horizontal,
         spr,
-				uptime,
+				uptime_widget,
         spr,
-				network,
+				network_widget,
         spr,
-				cpu,
+				cpu_widget,
         spr,
-				memory,
+				memory_widget,
         spr,
-        storage
+        storage_widget
       }
     }
 

@@ -78,18 +78,17 @@ module.battery = lain.widgets.bat {
 -- CPU
 ---------------------------------------------------------------------
 
-local cpu = lain.widgets.cpu {
+module.cpu = lain.widgets.cpu {
   settings = function()
     widget:set_markup(cpu_now.usage .. "%")
   end
 }
-module.cpu = cpu.widget
 
 ---------------------------------------------------------------------
 -- Temp
 ---------------------------------------------------------------------
 
-local temp = lain.widgets.temp {
+module.temp = lain.widgets.temp {
   settings = function()
     coretemp_now = tonumber(coretemp_now)
     local text = coretemp_now and math.floor(coretemp_now) or "N/A"
@@ -98,18 +97,16 @@ local temp = lain.widgets.temp {
   tempfile = '/sys/class/hwmon/hwmon1/temp1_input',
   timeout = 1
 }
-module.temp = temp.widget
 
 ---------------------------------------------------------------------
 -- Memory
 ---------------------------------------------------------------------
 
-local memory = lain.widgets.mem {
+module.memory = lain.widgets.mem {
   settings = function()
     widget:set_markup(mem_now.perc .. "%")
   end
 }
-module.memory = memory.widget
 
 ---------------------------------------------------------------------
 -- System Load
@@ -117,12 +114,11 @@ module.memory = memory.widget
 
 -- System Load
 -- TODO Does this show after restart?
-local system_load = lain.widgets.sysload {
+module.system_load = lain.widgets.sysload {
   settings = function()
     widget:set_markup(load_15)
   end
 }
-module.system_load = system_load.widget
 
 ---------------------------------------------------------------------
 -- Uptime
@@ -193,7 +189,7 @@ end
 local step = "5%"
 local mixer = 'pavucontrol'
 
-local pulsebar = lain.widgets.pulsebar {
+module.volume = lain.widgets.pulsebar {
   sink   = 1,
   ticks  = true,
   ticks_size = 3,
@@ -213,33 +209,33 @@ local pulsebar = lain.widgets.pulsebar {
 }
 
 -- Mouse controls
-pulsebar.bar:buttons(awful.util.table.join(
+module.volume.bar:buttons(awful.util.table.join(
 	 awful.button({}, 1, function()
 		 awful.util.spawn(mixer)
 	 end),
 	 awful.button({}, 2, function()
-		 awful.util.spawn(string.format("pactl set-sink-volume %d 100%%", pulsebar.sink))
-		 pulsebar.update()
-		 pulsebar.notify()
+		 awful.util.spawn(string.format("pactl set-sink-volume %d 100%%", module.volume.sink))
+		 module.volume.update()
+		 module.volume.notify()
 	 end),
 	 awful.button({}, 3, function()
-		 awful.util.spawn(string.format("pactl set-sink-mute %d toggle", pulsebar.sink))
-		 pulsebar.update()
-		 pulsebar.notify()
+		 awful.util.spawn(string.format("pactl set-sink-mute %d toggle", module.volume.sink))
+		 module.volume.update()
+		 module.volume.notify()
 	 end),
 	 awful.button({}, 4, function()
-		 awful.util.spawn(string.format("pactl set-sink-volume %d +%s", pulsebar.sink, step))
-		 pulsebar.update()
-		 pulsebar.notify()
+		 awful.util.spawn(string.format("pactl set-sink-volume %d +%s", module.volume.sink, step))
+		 module.volume.update()
+		 module.volume.notify()
 	 end),
 	 awful.button({}, 5, function()
-		 awful.util.spawn(string.format("pactl set-sink-volume %d -%s", pulsebar.sink, step))
-		 pulsebar.update()
-		 pulsebar.notify()
+		 awful.util.spawn(string.format("pactl set-sink-volume %d -%s", module.volume.sink, step))
+		 module.volume.update()
+		 module.volume.notify()
 	 end)
 ))
 
-module.volume = wibox.container.margin(pulsebar.bar, 0, 0, 10, 10)
+module.volume.widget = wibox.container.margin(module.volume.bar, 0, 0, 10, 10)
 
 return module
 
