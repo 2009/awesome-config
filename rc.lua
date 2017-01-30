@@ -260,8 +260,8 @@ local mpris_widget   = widget_container( nil,      mpris.state.widget,
                                                    widgets.volume.widget),
 
 -- Attach notification widgets
-widgets.attach_calendar(date_widget)
-widgets.attach_storage(storage_widget)
+widgets.calendar.attach(date_widget)
+widgets.storage.attach(storage_widget)
 
 ---------------------------------------------------------------------
 -- Setup Wibox & Screens

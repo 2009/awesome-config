@@ -32,11 +32,11 @@ module.date = wibox.widget.textclock("%d %b")
 -- Calendar
 ---------------------------------------------------------------------
 
-local calendar = lain.widgets.calendar
+module.calendar = lain.widgets.calendar
 
 -- Init the calendar, attaching it to nothing as we want to bind the
 -- signals ourselves
-lain.widgets.calendar.attach(nil, {
+lain.widgets.calendar {
   followtag = true,
   notification_preset = {
     fg = "#FFFFFF",
@@ -46,18 +46,7 @@ lain.widgets.calendar.attach(nil, {
     position = "top_right",
     font = "Misc Tamsyn 12"
   }
-})
-
-module.attach_calendar = function (widget)
-  widget:connect_signal("mouse::enter", function () calendar.show(0) end)
-  widget:connect_signal("mouse::leave", function () calendar.hide() end)
-  widget:buttons(awful.util.table.join(
-    awful.button({ }, 1, function () calendar.show(0, -1, calendar.scr_pos) end),
-    awful.button({ }, 3, function () calendar.show(0,  1, calendar.scr_pos) end),
-    awful.button({ }, 4, function () calendar.show(0, -1, calendar.scr_pos) end),
-    awful.button({ }, 5, function () calendar.show(0,  1, calendar.scr_pos) end))
-  )
-end
+}
 
 ---------------------------------------------------------------------
 -- Battery
@@ -174,7 +163,7 @@ module.storage = lain.widgets.fs {
 }
 
 -- Attach mouse enter and leave signals
-module.attach_storage = function (widget)
+module.storage.attach = function (widget)
   widget:connect_signal('mouse::enter', function () module.storage.show(0, '--exclude-type=tmpfs') end)
   widget:connect_signal('mouse::leave', function () module.storage.hide() end)
 end
