@@ -258,7 +258,7 @@ local task_widget    = widget_container( "TW",     widgets.task.widget )
 local mpris_widget   = widget_container( nil,      mpris.state.widget,
                                                    mpris.now_playing.widget,
                                                    mpris.controls.widget,
-                                                   widgets.volume.widget),
+                                                   widgets.volume.widget)
 
 -- Attach notification widgets
 widgets.calendar.attach(date_widget)
@@ -480,12 +480,12 @@ globalkeys = awful.util.table.join(
 
     -- Volume Keys
     awful.key({}, "XF86AudioRaiseVolume", function()
-      os.execute(string.format("pactl set-sink-volume %d +%s", pulsebar.sink, pulsebar.step))
-      pulsebar.update()
+      os.execute(string.format("pactl set-sink-volume %d +%s", widgets.volume.sink, widgets.volume.step))
+      widgets.volume.update()
     end),
     awful.key({}, "XF86AudioLowerVolume", function()
-      os.execute(string.format("pactl set-sink-volume %d -%s", pulsebar.sink, pulsebar.step))
-      pulsebar.update()
+      os.execute(string.format("pactl set-sink-volume %d -%s", widgets.volume.sink, widgets.volume.step))
+      widgets.volume.update()
     end))
     --}}
 
