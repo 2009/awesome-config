@@ -254,6 +254,7 @@ local cpu_widget     = widget_container( "CPU",    widgets.cpu.widget,
                                                    widgets.temp.widget )
 local memory_widget  = widget_container( "MEM",    widgets.memory.widget )
 local battery_widget = widget_container( "BAT",    widgets.battery.widget )
+local task_widget    = widget_container( "TW",     widgets.task.widget )
 local mpris_widget   = widget_container( nil,      mpris.state.widget,
                                                    mpris.now_playing.widget,
                                                    mpris.controls.widget,
@@ -262,6 +263,7 @@ local mpris_widget   = widget_container( nil,      mpris.state.widget,
 -- Attach notification widgets
 widgets.calendar.attach(date_widget)
 widgets.storage.attach(storage_widget)
+widgets.task.attach(task_widget)
 
 ---------------------------------------------------------------------
 -- Setup Wibox & Screens
@@ -313,8 +315,8 @@ awful.screen.connect_for_each_screen(function(s)
         wibox.widget.systray(),
 				spr,
         mpris_widget,
-        spr,
-        battery_widget,
+        --spr,
+        --battery_widget,
         spr,
         date_widget,
         spr,
@@ -334,6 +336,8 @@ awful.screen.connect_for_each_screen(function(s)
       s.mytasklist, -- Middle widgets
       { -- Right widgets
         layout = wibox.layout.fixed.horizontal,
+        spr,
+        task_widget,
         spr,
 				uptime_widget,
         spr,
@@ -367,6 +371,9 @@ globalkeys = awful.util.table.join(
     -- Take a screenshot
     -- https://github.com/copycat-killer/dots/blob/master/bin/screenshot
     awful.key({ altkey }, "p", function() os.execute("screenshot") end),
+
+    -- Taskwarrior Prompt
+    awful.key({ altkey }, "t", lain.widgets.contrib.task.prompt),
 
     -- Tag browsing
     awful.key({ modkey }, "Left",   awful.tag.viewprev       ),

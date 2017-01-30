@@ -49,6 +49,32 @@ lain.widgets.calendar {
 }
 
 ---------------------------------------------------------------------
+-- Taskwarrior
+---------------------------------------------------------------------
+
+module.task = lain.widgets.abase {
+  cmd = "task count",
+  timeout = 1,
+  settings = function()
+    local count  = output and string.match(output, "[%d]+") or 0
+    widget:set_text(count)
+  end
+}
+
+module.task.attach = function(widget)
+  lain.widgets.contrib.task.attach(widget, {
+    followtag = true,
+    notification_preset = {
+      -- TODO cleanup
+      fg = "#FFFFFF",
+      bg = beautiful.bg_normal,
+      position = "bottom_right",
+      font = "Misc Tamsyn 12"
+    }
+  })
+end
+
+---------------------------------------------------------------------
 -- Battery
 ---------------------------------------------------------------------
 -- TODO test on laptop
