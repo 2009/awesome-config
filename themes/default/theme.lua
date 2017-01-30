@@ -4,7 +4,7 @@
                                 
 --]]
 
-theme                               = {}
+local theme                               = {}
 
 theme.icon_dir                      = os.getenv("HOME") .. "/.config/awesome/themes/default/icons"
 theme.wallpaper                     = os.getenv("HOME") .. "/.config/awesome/themes/default/MTG-Hydra-1920x1080.jpg"
@@ -30,26 +30,29 @@ theme.widget_bg_color = theme.grey_darker
 -- beautiful
 theme.font                          = "Misc Tamsyn 10.5"
 theme.taglist_font                  = "Misc Tamsyn 8"
+
 theme.fg_normal                     = theme.white
 theme.fg_focus                      = theme.blue
-theme.bg_normal                     = theme.grey_dark
+theme.bg_normal                     = theme.grey_darker
 theme.fg_urgent                     = theme.pink
 theme.bg_urgent                     = theme.grey_very_dark
 theme.border_width                  = "1"
 theme.border_normal                 = theme.grey_dark
 theme.border_focus                  = theme.blue
+
 theme.taglist_bg_empty              = "png:" .. theme.icon_dir .. "/taglist_bg_empty.png"
 theme.taglist_bg_occupied           = "png:" .. theme.icon_dir .. "/taglist_bg_empty.png"
 theme.taglist_fg_focus              = theme.white
 theme.taglist_bg_focus              = "png:" .. theme.icon_dir .. "/taglist_bg_focus.png"
-theme.tasklist_bg_normal            = theme.grey_dark
+
+theme.tasklist_bg_normal            = theme.grey_darker
 theme.tasklist_fg_focus             = theme.blue_very_light
-theme.tasklist_bg_focus             = "png:" .. theme.icon_dir .. "/bg_focus_noline.png"
+theme.tasklist_bg_focus             = theme.grey_dark
+--theme.tasklist_bg_focus             = "png:" .. theme.icon_dir .. "/bg_focus_noline.png"
+
 theme.textbox_widget_margin_top     = 1
 theme.awful_widget_height           = 14
 theme.awful_widget_margin_top       = 2
-theme.menu_height                   = "20"
-theme.menu_width                    = "400"
 
 -- widget colors
 theme.widget_label                  = theme.grey_light

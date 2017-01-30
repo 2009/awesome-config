@@ -115,7 +115,6 @@ awful.layout.layouts = {
 local function widget_container(label, ...)
 	local args = { ... }
 	local fg = beautiful.widget_label
-	local bg = beautiful.widget_bg_color
   local margin_right = 10
 	local widgets = {}
 
@@ -129,7 +128,7 @@ local function widget_container(label, ...)
 		label = wibox.widget.textbox(label)
 	end
 
-  local label_bg = wibox.container.background(label, bg, shape.rectangle)
+  local label_bg = wibox.container.background(label, nil, shape.rectangle)
   local label_margin = wibox.container.margin(label_bg, margin_right, 10, 0, 0, bg)
   label_bg.fg = fg
 
@@ -138,8 +137,7 @@ local function widget_container(label, ...)
 
 	for i, v in ipairs(args) do
 		local widget = v
-		local widget_bg = wibox.container.background(widget, bg, shape.rectangle)
-		local widget_margin = wibox.container.margin(widget_bg, 0, 10, 0, 0, bg)
+		local widget_margin = wibox.container.margin(widget, 0, 10, 0, 0, bg)
 		
 		-- Append to array
 		table.insert(widgets, widget_margin)
@@ -158,9 +156,9 @@ spr.draw = function(self, context, cr, width, height)
   -- Cairo Drawing!!!
 
   -- BG
-  cr:set_source(gears.color(beautiful.grey_darker))
-  cr:rectangle(0, 0, width, height)
-  cr:fill()
+  --cr:set_source(gears.color(beautiful.grey_darker))
+  --cr:rectangle(0, 0, width, height)
+  --cr:fill()
 
   -- Bar
   rwidth = 2
@@ -445,6 +443,7 @@ globalkeys = awful.util.table.join(
 
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end),
+    awful.key({ modkey, "Control" }, "t",      function () awful.spawn("startx -- /usr/bin/Xephyr :1 -screen 1024x768") end),
     awful.key({ modkey, "Control" }, "r",      awesome.restart),
     awful.key({ modkey, "Control" }, "q",      awesome.quit),
 
