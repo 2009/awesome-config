@@ -13,6 +13,7 @@ local beautiful = require( "beautiful" )
 local wibox     = require( "wibox"     )
 local naughty   = require( "naughty"   )
 local awful     = require( "awful"     )
+local run_once  = require( "helpers"   ).run_once
 
 local module = {}
 
@@ -84,6 +85,9 @@ module.state = lain.widgets.abase {
     end
   end
 }
+
+-- Launch spotify
+module.state.widget:buttons(awful.util.table.join(awful.button({}, 1, function () run_once("spotify") end)))
 
 ---------------------------------------------------------------------
 -- Now Playing Widget

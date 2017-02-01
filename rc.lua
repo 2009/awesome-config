@@ -32,6 +32,8 @@ local hotkeys_popup = require( "awful.hotkeys_popup" ).widget
 local mpris   = require( "mpris" )
 local widgets = require( "widgets" )
 
+local run_once = require( "helpers" ).run_once
+
 ---------------------------------------------------------------------
 -- Error Handling
 ---------------------------------------------------------------------
@@ -62,17 +64,8 @@ end
 ---------------------------------------------------------------------
 -- Autostart Applications
 ---------------------------------------------------------------------
-
-local function run_once(cmd)
-  findme = cmd
-  firstspace = cmd:find(" ")
-  if firstspace then
-    findme = cmd:sub(0, firstspace-1)
-  end
-  awful.spawn.with_shell(string.format("pgrep -u $USER -x %s > /dev/null || (%s)", findme, cmd))
-end
-
 -- TODO autostart
+
 --run_once("urxvtd")
 --run_once("unclutter -root")
 
