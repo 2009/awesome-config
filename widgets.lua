@@ -3,6 +3,7 @@
 ---------------------------------------------------------------------
 -- All the simple widgets + initialization is here
 ---------------------------------------------------------------------
+-- TODO World time widget to show times in other countries
 
 local lain      = require( "lain"      )
 local markup    = require( "lain.util" ).markup
