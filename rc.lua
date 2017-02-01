@@ -255,7 +255,7 @@ local cpu_widget       = widget_container( "CPU",    widgets.cpu.widget,
 local memory_widget    = widget_container( "MEM",    widgets.memory.widget )
 local battery_widget   = widget_container( "BAT",    widgets.battery.widget )
 local task_widget      = widget_container( "TW",     widgets.task.widget )
-local countdown_widget = widget_container( "C",      widgets.countdown.widget )
+local countdown_widget = widget_container( "♥",      widgets.countdown.widget )
 local mpris_widget     = widget_container( nil,      mpris.state.widget,
                                                      mpris.now_playing.widget,
                                                      mpris.controls.widget,
@@ -315,8 +315,9 @@ awful.screen.connect_for_each_screen(function(s)
 				layout = wibox.layout.fixed.horizontal,
         wibox.widget.systray(),
 				spr,
+        mpris_widget,
+				spr,
         countdown_widget,
-        --mpris_widget,
         --spr,
         --battery_widget,
         spr,

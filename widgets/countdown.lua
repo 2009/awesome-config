@@ -8,7 +8,7 @@ local function worker(args)
   local timeout   = args.timeout or 1
   local nostart   = args.nostart or false
   local stoppable = args.stoppable or false
-  local date      = args.date or { year = 2017, month = 2, day = 17, hour = 17 }
+  local date      = args.date or { year = 2017, month = 2, day = 17, hour = 12, minute = 5 }
   local settings  = args.settings or function()
     widget:set_text(days .. "d " .. hours .. "h " .. minutes .. "m " .. seconds .. "s")
   end
