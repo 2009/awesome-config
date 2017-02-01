@@ -10,6 +10,7 @@ local wibox     = require( "wibox"     )
 local awful     = require( "awful"     )
 local naughty    = require( "naughty"     )
 local beautiful = require( "beautiful" )
+local countdown = require( "widgets.countdown" )
 
 local widgets = {}
 
@@ -27,6 +28,14 @@ widgets.time = wibox.widget.textclock("%H:%M")
 ---------------------------------------------------------------------
 
 widgets.date = wibox.widget.textclock("%d %b")
+
+---------------------------------------------------------------------
+-- Countdown
+---------------------------------------------------------------------
+
+widgets.countdown = countdown {
+  date = { year = 2017, month = 2, day = 17, hour = 17, minute = 0 }
+}
 
 ---------------------------------------------------------------------
 -- Calendar
@@ -205,7 +214,7 @@ local step = "5%"
 local mixer = 'pavucontrol'
 
 widgets.volume = lain.widgets.pulsebar {
-  sink   = 1,
+  sink   = 0,
   ticks  = true,
   ticks_size = 3,
   width  = 80,

@@ -244,21 +244,22 @@ screen.connect_signal("property::geometry", set_wallpaper)
 ---------------------------------------------------------------------
 
 -- Local Widget Variablse
-local time_widget    = widget_container( "TIME",   widgets.time )
-local date_widget    = widget_container( "DATE",   widgets.date )
-local storage_widget = widget_container( "HDD",    widgets.storage.widget )
-local uptime_widget  = widget_container( "UPTIME", widgets.uptime.widget )
-local network_widget = widget_container( "NET",    widgets.network.widget )
-local cpu_widget     = widget_container( "CPU",    widgets.cpu.widget,
-                                                   widgets.system_load.widget,
-                                                   widgets.temp.widget )
-local memory_widget  = widget_container( "MEM",    widgets.memory.widget )
-local battery_widget = widget_container( "BAT",    widgets.battery.widget )
-local task_widget    = widget_container( "TW",     widgets.task.widget )
-local mpris_widget   = widget_container( nil,      mpris.state.widget,
-                                                   mpris.now_playing.widget,
-                                                   mpris.controls.widget,
-                                                   widgets.volume.widget)
+local time_widget      = widget_container( "TIME",   widgets.time )
+local date_widget      = widget_container( "DATE",   widgets.date )
+local storage_widget   = widget_container( "HDD",    widgets.storage.widget )
+local uptime_widget    = widget_container( "UPTIME", widgets.uptime.widget )
+local network_widget   = widget_container( "NET",    widgets.network.widget )
+local cpu_widget       = widget_container( "CPU",    widgets.cpu.widget,
+                                                     widgets.system_load.widget,
+                                                     widgets.temp.widget )
+local memory_widget    = widget_container( "MEM",    widgets.memory.widget )
+local battery_widget   = widget_container( "BAT",    widgets.battery.widget )
+local task_widget      = widget_container( "TW",     widgets.task.widget )
+local countdown_widget = widget_container( "C",      widgets.countdown.widget )
+local mpris_widget     = widget_container( nil,      mpris.state.widget,
+                                                     mpris.now_playing.widget,
+                                                     mpris.controls.widget,
+                                                     widgets.volume.widget)
 
 -- Attach notification widgets
 widgets.calendar.attach(date_widget)
@@ -314,7 +315,8 @@ awful.screen.connect_for_each_screen(function(s)
 				layout = wibox.layout.fixed.horizontal,
         wibox.widget.systray(),
 				spr,
-        mpris_widget,
+        countdown_widget,
+        --mpris_widget,
         --spr,
         --battery_widget,
         spr,
