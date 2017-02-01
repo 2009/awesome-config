@@ -47,6 +47,7 @@ widgets.calendar = lain.widgets.calendar
 -- Init the calendar, attaching it to nothing as we want to bind the
 -- signals ourselves
 lain.widgets.calendar {
+  cal = "/usr/bin/cal --color=always",
   followtag = true,
   notification_preset = {
     fg = "#FFFFFF",
