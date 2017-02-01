@@ -52,10 +52,10 @@ controls.stop_button:buttons(awful.util.table.join(awful.button({}, 1, controls.
 
 -- Package into a widget!
 controls.widget = wibox.layout.fixed.horizontal(
-  controls.prev_button,
-  controls.next_button,
   controls.stop_button,
-  controls.play_button
+  controls.play_button,
+  controls.prev_button,
+  controls.next_button
 )
 
 -- Add controls to the module
