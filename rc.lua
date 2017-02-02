@@ -31,7 +31,8 @@ local hotkeys_popup = require( "awful.hotkeys_popup" ).widget
 
 local mpris       = require( "mpris" )
 local widgets     = require( "widgets" )
-local keybindings = require( "keybinings" )
+local widgets     = require( "widgets" )
+local keys        = require( "keys" )
 local run_once    = require( "helpers" ).run_once
 
 ---------------------------------------------------------------------
@@ -387,11 +388,8 @@ clientbuttons = awful.util.table.join(
   awful.button({ modkey }, 1, awful.mouse.client.move),
   awful.button({ modkey }, 3, awful.mouse.client.resize))
 
--- Keybindings
-
-keybindings.init()
-
-root.keys(keybinings.globalkeys)
+-- Set global keys
+root.keys(keys.global)
 
 ---------------------------------------------------------------------
 -- Rules
