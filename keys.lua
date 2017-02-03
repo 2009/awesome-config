@@ -13,18 +13,16 @@ local widgets  = require( "widgets" )
 local global = { root = root }
 local os     = { execute = os.execute }
 
-
 naughty.notify{ title="config", text=inspect(config)}
 
 -- Bind config locally
-local modkey   = config.modkey
-local altkey   = config.altkey
-local terminal = config.terminal
-
-naughty.notify{ title="config", text=modkey}
-
--- TODO handle this one
-local terminal_argname = "--name %s"
+local modkey     = config.modkey
+local altkey     = config.altkey
+local terminal   = config.terminal
+local editor     = config.editor
+local gui_editor = config.gui_editor
+local browser    = config.browser
+local graphics   = config.graphics
 
 local keys  = {}
 keys.global = {}
@@ -129,26 +127,26 @@ gkey("screen", "Screen focus next", { modkey }, "]", function () awful.screen.fo
 gkey("screen", "Screen focus prev", { modkey }, "[", function () awful.screen.focus_relative(-1) end)
 
 -- Standard program
-gkey("not_done", "", { modkey,           }, "Return", function () awful.spawn(terminal) end)
-gkey("not_done", "", { modkey, "Control" }, "t",      function () awful.spawn("startx -- /usr/bin/Xephyr :1 -screen 1024x768") end)
-gkey("not_done", "", { modkey, "Control" }, "r",      awesome.restart)
-gkey("not_done", "", { modkey, "Control" }, "q",      awesome.quit)
+gkey("apps", "", { modkey,           }, "Return", function () awful.spawn(terminal) end)
 
+gkey("awesome", "Awesome Xephyr",   { modkey, "Control" }, "t", function () awful.spawn("startx -- /usr/bin/Xephyr :1 -screen 1024x768") end)
+gkey("awesome", "Aweseome restart", { modkey, "Control" }, "r", awesome.restart)
+gkey("awesome", "Awesome quit",     { modkey, "Control" }, "q", awesome.quit)
 
 
 -- Dropdown terminal
-gkey("not_done", "", { modkey,           }, "z", function () awful.screen.focused().quakeconsole:toggle() end)
+gkey("apps", "Quake terminal", { modkey }, "z", function () awful.screen.focused().quakeconsole:toggle() end)
 
 -- Widgets popups
-gkey("not_done", "", { altkey,           }, "c", function () lain.widgets.calendar.show(7) end)
+gkey("wigets", "Calendar show", { altkey }, "c", function () lain.widgets.calendar.show(7) end)
 
 -- Copy to clipboard
-gkey("not_done", "", { modkey }, "c", function () os.execute("xsel -p -o | xsel -i -b") end)
+gkey("not_done", "Copy to clipboard", { modkey }, "c", function () os.execute("xsel -p -o | xsel -i -b") end)
 
 -- User programs
-gkey("not_done", "", { modkey }, "q", function () awful.spawn(browser) end)
-gkey("not_done", "", { modkey }, "s", function () awful.spawn(gui_editor) end)
-gkey("not_done", "", { modkey }, "g", function () awful.spawn(graphics) end)
+gkey("apps", "Launch browser",         { modkey }, "q", function () awful.spawn(browser) end)
+gkey("apps", "Launch gui editor",      { modkey }, "s", function () awful.spawn(gui_editor) end)
+gkey("apps", "Launch graphics editor", { modkey }, "g", function () awful.spawn(graphics) end)
 
 -- Prompt
 gkey("launcher", "Run prompt", { modkey }, "r", function () awful.screen.focused().mypromptbox:run() end)
@@ -169,9 +167,6 @@ gkey("not_done", "Volume down", {}, "XF86AudioLowerVolume", function()
   widgets.volume.update()
 end)
 
-
-
-
 naughty.notify{title="keys", text=inspect(keys.global)}
 
 -- Bind all key numbers to tags.
@@ -180,7 +175,7 @@ naughty.notify{title="keys", text=inspect(keys.global)}
 for i = 1, 9 do
 
   -- View tag only.
-  gkey("not_done", "", { modkey }, "#" .. i + 9, function ()
+  gkey("tag", "Switch to tag " .. i, { modkey }, "#" .. i + 9, function ()
     local screen = awful.screen.focused()
     local tag = screen.tags[i]
     if tag then
@@ -188,7 +183,7 @@ for i = 1, 9 do
     end
   end)
   -- Toggle tag.
-  gkey("not_done", "", { modkey, "Control" }, "#" .. i + 9, function ()
+  gkey("tag", "Toggle tag " .. i, { modkey, "Control" }, "#" .. i + 9, function ()
     local screen = awful.screen.focused()
     local tag = screen.tags[i]
     if tag then
@@ -196,7 +191,7 @@ for i = 1, 9 do
     end
   end)
   -- Move client to tag.
-  gkey("not_done", "", { modkey, "Shift" }, "#" .. i + 9, function ()
+  gkey("tag", "Move client to tag " .. i, { modkey, "Shift" }, "#" .. i + 9, function ()
     if client.focus then
       local tag = client.focus.screen.tags[i]
       if tag then
@@ -205,7 +200,7 @@ for i = 1, 9 do
     end
   end)
   -- Toggle tag on focused client.
-  gkey("not_done", "", { modkey, "Control", "Shift" }, "#" .. i + 9, function ()
+  gkey("tag", "Toggle tag " .. i .. " for focused client", { modkey, "Control", "Shift" }, "#" .. i + 9, function ()
     if client.focus then
       local tag = client.focus.screen.tags[i]
       if tag then
@@ -214,5 +209,26 @@ for i = 1, 9 do
     end
   end)
 end
+
+---------------------------------------------------------------------
+-- Client Keys
+---------------------------------------------------------------------
+
+ckey("client", "Fullscreen client", { modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
+ckey("client", "Kill client",   { modkey, "Shift"   }, "c",      function (c) c:kill()                         end),
+ckey("client", "Float client",  { modkey, "Control" }, "space",  awful.client.floating.toggle                     ),
+ckey("client", "not_done",      { modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
+ckey("client", "not_done",      { modkey,           }, "o",      function (c) c:move_to_screen()               end),
+ckey("client", "Client on top", { modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
+-- TODO
+ckey("client", "not_done",      { modkey,           }, "n", function (c)
+  -- The client currently has the input focus, so it cannot be
+  -- minimized, since minimized clients can't have the focus.
+  c.minimized = true
+end),
+ckey("client", "not_done", { modkey,           }, "m", function (c)
+  c.maximized_horizontal = not c.maximized_horizontal
+  c.maximized_vertical   = not c.maximized_vertical
+end)
 
 return keys

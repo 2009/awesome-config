@@ -1,7 +1,6 @@
 --[[
                                 
-     Based off Holo config
-     github.com/copycat-killer  
+      My Awesome Config
                                 
 --]]
 
@@ -32,6 +31,7 @@ local hotkeys_popup = require( "awful.hotkeys_popup" ).widget
 local mpris       = require( "mpris" )
 local widgets     = require( "widgets" )
 local widgets     = require( "widgets" )
+local config      = require( "config" )
 local keys        = require( "keys" )
 local run_once    = require( "helpers" ).run_once
 
@@ -77,18 +77,11 @@ end
 -- beautiful init
 beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/default/theme.lua")
 
--- common
-local modkey           = "Mod4"
-local altkey           = "Mod1"
-local terminal         = "termite" or "xterm"
-local terminal_argname = "--name %s"
-local editor           = os.getenv("EDITOR") or "nano" or "vi"
-
--- user defined
-local browser    = "firefox"
-local gui_editor = "gvim"
-local graphics   = "gimp"
-local musicplr   = terminal .. " -e ncmpcpp "
+-- bind config locally
+local modkey           = config.modkey
+local altkey           = config.altkey
+local terminal         = config.terminal
+local terminal_argname = config.terminal_argname
 
 -- Tags
 local tagnames = { " WEB ", " DEV ", " TERMINAL ", " FILES ", " OTHER " }
@@ -359,34 +352,14 @@ root.buttons(awful.util.table.join(
   awful.button({ }, 5, awful.tag.viewprev)
 ))
 
----------------------------------------------------------------------
--- Keybindings
----------------------------------------------------------------------
-
-clientkeys = awful.util.table.join(
-  awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
-  awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end),
-  awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ),
-  awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
-  awful.key({ modkey,           }, "o",      function (c) c:move_to_screen()               end),
-  awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
-  awful.key({ modkey,           }, "n",
-    function (c)
-      -- The client currently has the input focus, so it cannot be
-      -- minimized, since minimized clients can't have the focus.
-      c.minimized = true
-    end),
-  awful.key({ modkey,           }, "m",
-    function (c)
-      c.maximized_horizontal = not c.maximized_horizontal
-      c.maximized_vertical   = not c.maximized_vertical
-    end))
-
-
 clientbuttons = awful.util.table.join(
   awful.button({ }, 1, function (c) client.focus = c; c:raise() end),
   awful.button({ modkey }, 1, awful.mouse.client.move),
   awful.button({ modkey }, 3, awful.mouse.client.resize))
+
+---------------------------------------------------------------------
+-- Keybindings
+---------------------------------------------------------------------
 
 -- Set global keys
 root.keys(keys.global)
@@ -403,7 +376,7 @@ awful.rules.rules = {
       border_width = beautiful.border_width,
       border= beautiful.border_normal,
       focus = awful.client.focus.filter,
-      keys = clientkeys,
+      keys = keys.clientkeys,
       buttons = clientbuttons,
       screen = awful.screen.preferred,
       placement = awful.placement.no_overlap+awful.placement.no_offscreen,
