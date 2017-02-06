@@ -2,18 +2,13 @@
 -- Keys
 ---------------------------------------------------------------------
 
-local awful  = require( "awful" )
-local lain   = require( "lain" )
-local config = require( "config" )
-
-local naughty  = require( "naughty" )
-local inspect  = require( "util.inspect" )
+local awful    = require( "awful" )
+local lain     = require( "lain" )
+local config   = require( "config" )
 local widgets  = require( "widgets" )
 
 local global = { root = root }
 local os     = { execute = os.execute }
-
-naughty.notify{ title="config", text=inspect(config)}
 
 -- Bind config locally
 local modkey     = config.modkey
@@ -167,8 +162,6 @@ gkey("not_done", "Volume down", {}, "XF86AudioLowerVolume", function()
   widgets.volume.update()
 end)
 
-naughty.notify{title="keys", text=inspect(keys.global)}
-
 -- Bind all key numbers to tags.
 -- be careful: we use keycodes to make it works on any keyboard layout.
 -- This should map on the top row of your keyboard, usually 1 to 9.
@@ -214,18 +207,18 @@ end
 -- Client Keys
 ---------------------------------------------------------------------
 
-ckey("client", "Fullscreen client", { modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
-ckey("client", "Kill client",   { modkey, "Shift"   }, "c",      function (c) c:kill()                         end),
-ckey("client", "Float client",  { modkey, "Control" }, "space",  awful.client.floating.toggle                     ),
-ckey("client", "not_done",      { modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
-ckey("client", "not_done",      { modkey,           }, "o",      function (c) c:move_to_screen()               end),
-ckey("client", "Client on top", { modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
+ckey("client", "Fullscreen client", { modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end)
+ckey("client", "Kill client",   { modkey, "Shift"   }, "c",      function (c) c:kill()                         end)
+ckey("client", "Float client",  { modkey, "Control" }, "space",  awful.client.floating.toggle                     )
+ckey("client", "not_done",      { modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end)
+ckey("client", "not_done",      { modkey,           }, "o",      function (c) c:move_to_screen()               end)
+ckey("client", "Client on top", { modkey,           }, "t",      function (c) c.ontop = not c.ontop            end)
 -- TODO
 ckey("client", "not_done",      { modkey,           }, "n", function (c)
   -- The client currently has the input focus, so it cannot be
   -- minimized, since minimized clients can't have the focus.
   c.minimized = true
-end),
+end)
 ckey("client", "not_done", { modkey,           }, "m", function (c)
   c.maximized_horizontal = not c.maximized_horizontal
   c.maximized_vertical   = not c.maximized_vertical

@@ -18,8 +18,6 @@ local widgets = {}
 -- beautiful init
 beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/default/theme.lua")
 
-naughty.notify{ title = "do i run twice?", text = "maybe" }
-
 ---------------------------------------------------------------------
 -- Time
 ---------------------------------------------------------------------
