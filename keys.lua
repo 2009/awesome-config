@@ -6,6 +6,7 @@ local awful    = require( "awful" )
 local lain     = require( "lain" )
 local config   = require( "config" )
 local widgets  = require( "widgets" )
+local hotkeys  = require( "awful.hotkeys_popup.widget" )
 
 local global = { root = root }
 local os     = { execute = os.execute }
@@ -48,6 +49,8 @@ end
 gkey("apps", "Screenshot",         { altkey }, "p", function() os.execute("screenshot") end)
 
 gkey("apps", "Taskwarrior Prompt", { altkey }, "t", lain.widgets.contrib.task.prompt)
+
+gkey("apps", "Show help", { modkey }, "/", hotkeys.show_help)
 
 -- Tag browsing
 gkey("tag", "Tag prev",      { modkey }, "Left",   awful.tag.viewprev       )
