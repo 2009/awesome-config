@@ -48,7 +48,7 @@ end
 -- https://github.com/copycat-killer/dots/blob/master/bin/screenshot
 gkey("apps", "Screenshot",         { altkey }, "p", function() os.execute("screenshot") end)
 
-gkey("apps", "Taskwarrior Prompt", { altkey }, "t", lain.widgets.contrib.task.prompt)
+gkey("apps", "Taskwarrior Prompt", { altkey }, "t", lain.widget.contrib.task.prompt)
 
 gkey("apps", "Show help", { modkey }, "/", hotkeys.show_help)
 
@@ -136,7 +136,7 @@ gkey("awesome", "Awesome quit",     { modkey, "Control" }, "q", awesome.quit)
 gkey("apps", "Quake terminal", { modkey }, "z", function () awful.screen.focused().quakeconsole:toggle() end)
 
 -- Widgets popups
-gkey("wigets", "Calendar show", { altkey }, "c", function () lain.widgets.calendar.show(7) end)
+gkey("wigets", "Calendar show", { altkey }, "c", function () lain.widget.calendar.show(7) end)
 
 -- Copy to clipboard
 gkey("not_done", "Copy to clipboard", { modkey }, "c", function () os.execute("xsel -p -o | xsel -i -b") end)

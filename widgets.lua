@@ -42,11 +42,11 @@ widgets.countdown = countdown {
 -- Calendar
 ---------------------------------------------------------------------
 
-widgets.calendar = lain.widgets.calendar
+widgets.calendar = lain.widget.calendar
 
 -- Init the calendar, attaching it to nothing as we want to bind the
 -- signals ourselves
-lain.widgets.calendar {
+lain.widget.calendar {
   cal = "/usr/bin/cal --color=always",
   followtag = true,
   notification_preset = {
@@ -63,7 +63,7 @@ lain.widgets.calendar {
 -- Taskwarrior
 ---------------------------------------------------------------------
 
-widgets.task = lain.widgets.abase {
+widgets.task = lain.widget.watch {
   cmd = "task count",
   timeout = 1,
   settings = function()
@@ -73,7 +73,7 @@ widgets.task = lain.widgets.abase {
 }
 
 widgets.task.attach = function(widget)
-  lain.widgets.contrib.task.attach(widget, {
+  lain.widget.contrib.task.attach(widget, {
     followtag = true,
     notification_preset = {
       -- TODO cleanup
@@ -90,7 +90,7 @@ end
 ---------------------------------------------------------------------
 -- TODO test on laptop
 
-widgets.battery = lain.widgets.bat {
+widgets.battery = lain.widget.bat {
   settings = function()
     local text = bat_now.perc
     if bat_now.ac_status == 1 then
@@ -104,7 +104,7 @@ widgets.battery = lain.widgets.bat {
 -- CPU
 ---------------------------------------------------------------------
 
-widgets.cpu = lain.widgets.cpu {
+widgets.cpu = lain.widget.cpu {
   settings = function()
     widget:set_markup(cpu_now.usage .. "%")
   end
@@ -114,7 +114,7 @@ widgets.cpu = lain.widgets.cpu {
 -- Temp
 ---------------------------------------------------------------------
 
-widgets.temp = lain.widgets.temp {
+widgets.temp = lain.widget.temp {
   settings = function()
     coretemp_now = tonumber(coretemp_now)
     local text = coretemp_now and math.floor(coretemp_now) or "N/A"
@@ -128,7 +128,7 @@ widgets.temp = lain.widgets.temp {
 -- Memory
 ---------------------------------------------------------------------
 
-widgets.memory = lain.widgets.mem {
+widgets.memory = lain.widget.mem {
   settings = function()
     widget:set_markup(mem_now.perc .. "%")
   end
@@ -140,7 +140,7 @@ widgets.memory = lain.widgets.mem {
 
 -- System Load
 -- TODO Does this show after restart?
-widgets.system_load = lain.widgets.sysload {
+widgets.system_load = lain.widget.sysload {
   settings = function()
     widget:set_markup(load_15)
   end
@@ -150,7 +150,7 @@ widgets.system_load = lain.widgets.sysload {
 -- Uptime
 ---------------------------------------------------------------------
 
-widgets.uptime = lain.widgets.abase {
+widgets.uptime = lain.widget.watch {
   cmd = "cat /proc/uptime",
   timeout = 1,
   settings = function()
@@ -170,7 +170,7 @@ widgets.uptime = lain.widgets.abase {
 -- Network Upload/Download
 ---------------------------------------------------------------------
 
-widgets.network = lain.widgets.net {
+widgets.network = lain.widget.net {
   settings = function()
     timeout = 1,
     widget:set_markup(
@@ -186,7 +186,7 @@ widgets.network = lain.widgets.net {
 -- HDD Storage Usage
 ---------------------------------------------------------------------
 
-widgets.storage = lain.widgets.fs {
+widgets.storage = lain.widget.fs {
   followtag = true,
   showpopup = 'off',
   settings  = function()
@@ -215,7 +215,7 @@ end
 local step = "5%"
 local mixer = 'pavucontrol'
 
-widgets.volume = lain.widgets.pulsebar {
+widgets.volume = lain.widget.pulsebar {
   sink   = 0,
   ticks  = true,
   ticks_size = 3,

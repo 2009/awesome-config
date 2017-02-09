@@ -7,7 +7,8 @@
 local theme                               = {}
 
 theme.icon_dir                      = os.getenv("HOME") .. "/.config/awesome/themes/default/icons"
-theme.wallpaper                     = os.getenv("HOME") .. "/.config/awesome/themes/default/MTG-Hydra-1920x1080.jpg"
+--theme.wallpaper                     = os.getenv("HOME") .. "/.config/awesome/themes/default/MTG-Hydra-1920x1080.jpg"
+theme.wallpaper                     = os.getenv("HOME") .. "/Downloads/chara_rice.jpg"
 theme.topbar_path                   = "png:" .. theme.icon_dir .. "/topbar/"
 
 -- colorscheme

@@ -65,7 +65,7 @@ module.controls = controls
 -- State Widget
 ---------------------------------------------------------------------
 
-module.state = lain.widgets.abase {
+module.state = lain.widget.watch {
   cmd = "playerctl status",
   timeout = 1,
   settings = function()
@@ -93,7 +93,7 @@ module.state.widget:buttons(awful.util.table.join(awful.button({}, 1, function (
 -- Now Playing Widget
 ---------------------------------------------------------------------
 
-module.now_playing = lain.widgets.abase {
+module.now_playing = lain.widget.watch {
   cmd = "playerctl metadata",
   timeout = 1,
   settings = function()
