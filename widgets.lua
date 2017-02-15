@@ -42,7 +42,7 @@ widgets.countdown = countdown {
 -- Calendar
 ---------------------------------------------------------------------
 
-widgets.calendar = lain.widget.calendar
+widgets.calendar = {}
 
 -- Init the calendar, attaching it to nothing as we want to bind the
 -- signals ourselves
@@ -58,6 +58,13 @@ lain.widget.calendar {
     font = "Misc Tamsyn 12"
   }
 }
+
+-- Fix for lain calendar widget not working with attach if
+-- attach_to does not contain the widget
+widgets.calendar.attach = function (widget)
+  table.insert(lain.widget.calendar.attach_to, widget)
+  lain.widget.calendar.attach(widget)
+end
 
 ---------------------------------------------------------------------
 -- Taskwarrior
