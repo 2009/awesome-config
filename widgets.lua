@@ -67,6 +67,17 @@ widgets.calendar.attach = function (widget)
 end
 
 ---------------------------------------------------------------------
+-- Scissors (copy from primary selection to clipboard selection)
+---------------------------------------------------------------------
+
+widgets.scissors = {}
+
+widgets.scissors.attach = function(widget)
+  widgets.scissors.widget = widget
+  widget:buttons(awful.util.table.join(awful.button({}, 1, function() awful.spawn.with_shell("xsel | xsel -i -b") end)))
+end
+
+---------------------------------------------------------------------
 -- Taskwarrior
 ---------------------------------------------------------------------
 

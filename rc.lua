@@ -247,11 +247,13 @@ local mpris_widget     = widget_container( nil,      mpris.state.widget,
                                                      mpris.now_playing.widget,
                                                      mpris.controls.widget,
                                                      widgets.volume.widget)
+local scissors_widget  = widget_container( "✂",      nil)
 
 -- Attach notification widgets
 widgets.calendar.attach(date_widget)
 widgets.storage.attach(storage_widget)
 widgets.task.attach(task_widget)
+widgets.scissors.attach(scissors_widget)
 
 ---------------------------------------------------------------------
 -- Setup Wibox & Screens
@@ -301,6 +303,7 @@ awful.screen.connect_for_each_screen(function(s)
 			{ -- Right widgets
 				layout = wibox.layout.fixed.horizontal,
         wibox.widget.systray(),
+        scissors_widget,
 				spr,
         mpris_widget,
 				spr,
