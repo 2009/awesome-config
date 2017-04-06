@@ -61,6 +61,13 @@ gkey("tag", "Tag alternate", { modkey }, "Escape", awful.tag.history.restore)
 gkey("tag", "Tag prev (non-empty)", { altkey }, "Left", function () lain.util.tag_view_nonempty(-1) end)
 gkey("tag", "Tag next (non-empty)", { altkey }, "Right", function () lain.util.tag_view_nonempty(1) end)
 
+-- Dynamic tagging
+gkey("tag", "Add new tag",    { modkey, "Shift" }, "n", function () lain.util.add_tag() end)
+gkey("tag", "Rename tag",     { modkey, "Shift" }, "r", function () lain.util.rename_tag() end)
+gkey("tag", "Move tag left",  { modkey, "Shift" }, "Left", function () lain.util.move_tag(-1) end)  -- move to previous tag
+gkey("tag", "Move tag right", { modkey, "Shift" }, "Right", function () lain.util.move_tag(1) end)  -- move to next tag
+gkey("tag", "Delete tag",     { modkey, "Shift" }, "d", function () lain.util.delete_tag() end)
+
 -- Default client focus
 gkey("client", "Client focus next", { altkey }, "k", function ()
   awful.client.focus.byidx( 1)
