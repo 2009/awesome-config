@@ -4,8 +4,9 @@
 -- Controls MPRIS players like Spotify and VLC
 -- Requires playerctl installed
 ---------------------------------------------------------------------
--- TODO Implement [OPEN SPOTIFY] button for state widget
 -- TODO Display/Go to tab when clicking the now playing widget
+-- TODO Conditionally load if spotify or playerctl is missing
+--      and display error
 
 local lain      = require( "lain"      )
 local markup    = require( "lain.util" ).markup
@@ -70,8 +71,8 @@ module.state = lain.widget.watch {
   timeout = 1,
   settings = function()
     local state = string.match(output, "Playing") or
-                      string.match(output, "Paused")  or
-                      "not_found"
+                  string.match(output, "Paused")  or
+                  "not_found"
 
     if state == "Playing" then
         widget:set_markup( font("[NOW PLAYING]") )

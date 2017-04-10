@@ -10,6 +10,7 @@
 -- TODO Remove dependency on images for tag background
 -- TODO Add missing corner layout image
 -- TODO Update media icons to not have AA and have transparent backgrounds
+-- TODO Newly created dynamic tags can't switch layouts
 ---------------------------------------------------------------------
 
 ---------------------------------------------------------------------
@@ -30,10 +31,10 @@ local hotkeys_popup = require( "awful.hotkeys_popup" ).widget
 
 local mpris       = require( "mpris" )
 local widgets     = require( "widgets" )
-local widgets     = require( "widgets" )
 local config      = require( "config" )
 local keys        = require( "keys" )
 local run_once    = require( "helpers" ).run_once
+
 
 ---------------------------------------------------------------------
 -- Error Handling
@@ -243,11 +244,11 @@ local memory_widget    = widget_container( "MEM",    widgets.memory.widget )
 local battery_widget   = widget_container( "BAT",    widgets.battery.widget )
 local task_widget      = widget_container( "TW",     widgets.task.widget )
 local countdown_widget = widget_container( "♥",      widgets.countdown.widget )
+local scissors_widget  = widget_container( "✂",      nil)
 local mpris_widget     = widget_container( nil,      mpris.state.widget,
                                                      mpris.now_playing.widget,
                                                      mpris.controls.widget,
                                                      widgets.volume.widget)
-local scissors_widget  = widget_container( "✂",      nil)
 
 -- Attach notification widgets
 widgets.calendar.attach(date_widget)
@@ -291,6 +292,37 @@ awful.screen.connect_for_each_screen(function(s)
     -- Create the wibox
     s.mywibox = awful.wibar({ position = "top", screen = s, height = 32 })
 
+
+    -- Right widgets
+    -- TODO cleanup
+    local right_widgets = wibox.layout.fixed.horizontal()
+    right_widgets:add(
+      wibox.widget.systray(),
+      scissors_widget,
+      spr
+    )
+    if config.enable_mpris then
+      right_widgets:add(
+        mpris_widget,
+        spr
+      )
+    end
+    right_widgets:add(
+      countdown_widget,
+      spr
+    )
+    if config.enable_battery then
+      right_widgets:add(
+        battery_widget,
+        spr
+      )
+    end
+    right_widgets:add(
+      date_widget,
+      spr,
+      time_widget
+    )
+
 		s.mywibox:setup {
 			layout = wibox.layout.align.horizontal,
 			{ -- Left widgets
@@ -300,21 +332,7 @@ awful.screen.connect_for_each_screen(function(s)
 				s.mypromptbox,
 			},
 			nil, -- Middle widgets
-			{ -- Right widgets
-				layout = wibox.layout.fixed.horizontal,
-        wibox.widget.systray(),
-        scissors_widget,
-				spr,
-        mpris_widget,
-				spr,
-        countdown_widget,
-        --spr,
-        --battery_widget,
-        spr,
-        date_widget,
-        spr,
-        time_widget
-      }
+      right_widgets
     }
 
     -- Create the bottom wibox
