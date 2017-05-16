@@ -46,7 +46,8 @@ end
 
 -- Take a screenshot
 -- https://github.com/copycat-killer/dots/blob/master/bin/screenshot
-gkey("apps", "Screenshot",         { altkey }, "p", function() os.execute("screenshot") end)
+--gkey("apps", "Screenshot",         { altkey }, "p", function() os.execute("screenshot") end)
+gkey("apps", "Screenshot",         { altkey }, "p", function() awful.spawn.with_shell("sleep 0.1s && scrot -s -e 'mv $f ~/screenshots/'") end)
 
 gkey("apps", "Taskwarrior Prompt", { altkey }, "t", lain.widget.contrib.task.prompt)
 
