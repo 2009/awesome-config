@@ -35,7 +35,6 @@ local config      = require( "config" )
 local keys        = require( "keys" )
 local run_once    = require( "helpers" ).run_once
 
-
 ---------------------------------------------------------------------
 -- Error Handling
 ---------------------------------------------------------------------
@@ -231,29 +230,50 @@ screen.connect_signal("property::geometry", set_wallpaper)
 -- Local Widget Variables & Setup
 ---------------------------------------------------------------------
 
+local time        = widgets.time.init()
+local date        = widgets.date.init()
+local storage     = widgets.storage.init()
+local uptime      = widgets.uptime.init()
+local network     = widgets.network.init()
+local cpu         = widgets.cpu.init()
+local system_load = widgets.system_load.init()
+local temp        = widgets.temp.init()
+local memory      = widgets.memory.init()
+local battery     = widgets.battery.init()
+local task        = widgets.task.init()
+local countdown   = widgets.countdown.init()
+local volume      = widgets.volume.init()
+
+-- TODO mpris widgets with same init style
+--local state       = mpris.stat.init()
+--local now_playing = mpris.now_playing.init()
+--local controls    = mpris.controls.init()
+
 -- Local Widget Variablse
-local time_widget      = widget_container( "TIME",   widgets.time )
-local date_widget      = widget_container( "DATE",   widgets.date )
-local storage_widget   = widget_container( "HDD",    widgets.storage.widget )
-local uptime_widget    = widget_container( "UPTIME", widgets.uptime.widget )
-local network_widget   = widget_container( "NET",    widgets.network.widget )
-local cpu_widget       = widget_container( "CPU",    widgets.cpu.widget,
-                                                     widgets.system_load.widget,
-                                                     widgets.temp.widget )
-local memory_widget    = widget_container( "MEM",    widgets.memory.widget )
-local battery_widget   = widget_container( "BAT",    widgets.battery.widget )
-local task_widget      = widget_container( "TW",     widgets.task.widget )
-local countdown_widget = widget_container( "♥",      widgets.countdown.widget )
+local time_widget      = widget_container( "TIME",   time )
+local date_widget      = widget_container( "DATE",   date )
+local storage_widget   = widget_container( "HDD",    storage.widget )
+local uptime_widget    = widget_container( "UPTIME", uptime.widget )
+local network_widget   = widget_container( "NET",    network.widget )
+local cpu_widget       = widget_container( "CPU",    cpu.widget,
+                                                     system_load.widget,
+                                                     temp.widget )
+local memory_widget    = widget_container( "MEM",    memory.widget )
+local battery_widget   = widget_container( "BAT",    battery.widget )
+local task_widget      = widget_container( "TW",     task.widget )
+local countdown_widget = widget_container( "♥",      countdown.widget )
 local scissors_widget  = widget_container( "✂",      nil)
 local mpris_widget     = widget_container( nil,      mpris.state.widget,
                                                      mpris.now_playing.widget,
                                                      mpris.controls.widget,
-                                                     widgets.volume.widget)
+                                                     volume.widget)
 
 -- Attach notification widgets
-widgets.calendar.attach(date_widget)
-widgets.storage.attach(storage_widget)
+storage.attach(storage_widget)
+
+-- TODO Should use the same api for all widgets
 widgets.task.attach(task_widget)
+widgets.calendar.attach(date_widget)
 widgets.scissors.attach(scissors_widget)
 
 ---------------------------------------------------------------------

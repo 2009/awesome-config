@@ -15,6 +15,7 @@ local wibox     = require( "wibox"     )
 local naughty   = require( "naughty"   )
 local awful     = require( "awful"     )
 local run_once  = require( "helpers"   ).run_once
+local finit     = require( "helpers"   ).finit
 
 local module = {}
 
