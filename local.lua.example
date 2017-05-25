@@ -1,13 +1,11 @@
 ---------------------------------------------------------------------
--- Config
+-- Local Configuration File (local.lua)
 ---------------------------------------------------------------------
--- All the variable stuff
+-- This sets the configuration locally for the machine and overrides
+-- the default config in config.lua
 --
--- To set config locally for a each machine create a local.lua file
--- that returns your custom config table.
---
+-- Copy this file to local.lua and change as nessessary.
 ---------------------------------------------------------------------
-
 local config = {
 
   modkey = "Mod4",
@@ -24,11 +22,11 @@ local config = {
 
   xephyr_resolution = "1024x768",
 
+  -- Sets the layout of widgets and bars
+  -- For a custom layout just duplicate an existing layout and customize
+  -- it to your needs.
   layout = "default",
 
 }
-
--- Override config with local machine config if available
-pcall(function() config = require("local") or config end)
 
 return config

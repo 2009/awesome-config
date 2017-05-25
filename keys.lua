@@ -19,6 +19,7 @@ local editor     = config.editor
 local gui_editor = config.gui_editor
 local browser    = config.browser
 local graphics   = config.graphics
+local xres       = config.xephyr_resolution
 
 local keys  = {}
 keys.global = {}
@@ -135,7 +136,7 @@ gkey("screen", "Screen focus prev", { modkey }, "[", function () awful.screen.fo
 -- Standard program
 gkey("apps", "", { modkey,           }, "Return", function () awful.spawn(terminal) end)
 
-gkey("awesome", "Awesome Xephyr",   { modkey, "Control" }, "t", function () awful.spawn("startx -- /usr/bin/Xephyr :1 -screen 1024x768") end)
+gkey("awesome", "Awesome Xephyr",   { modkey, "Control" }, "t", function () awful.spawn("startx -- /usr/bin/Xephyr :1 -screen "..xres) end)
 gkey("awesome", "Aweseome restart", { modkey, "Control" }, "r", awesome.restart)
 gkey("awesome", "Awesome quit",     { modkey, "Control" }, "q", awesome.quit)
 
