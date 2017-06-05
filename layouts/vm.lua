@@ -99,9 +99,7 @@ local cpu         = widgets.cpu.init()
 local system_load = widgets.system_load.init()
 local temp        = widgets.temp.init()
 local memory      = widgets.memory.init()
-local battery     = widgets.battery.init()
 local task        = widgets.task.init()
-local volume      = widgets.volume.init()
 
 -- Local Widget Variablse
 local time_widget      = widget_container( "TIME",   time )
@@ -113,7 +111,6 @@ local cpu_widget       = widget_container( "CPU",    cpu.widget,
                                                      system_load.widget,
                                                      temp.widget )
 local memory_widget    = widget_container( "MEM",    memory.widget )
-local battery_widget   = widget_container( "BAT",    battery.widget )
 local task_widget      = widget_container( "TW",     task.widget )
 local scissors_widget  = widget_container( "✂",      nil)
 
@@ -160,8 +157,6 @@ layout.setup = function(screen)
           layout = wibox.layout.fixed.horizontal,
           wibox.widget.systray(),
           scissors_widget,
-          spr,
-          battery_widget,
           spr,
           date_widget,
           spr,
