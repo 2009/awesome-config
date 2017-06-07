@@ -29,7 +29,6 @@ local shape 		    = require( "gears.shape"         )
 local async         = require( "awful.spawn"         ).easy_async
 local hotkeys_popup = require( "awful.hotkeys_popup" ).widget
 
-local mpris       = require( "mpris" )
 local widgets     = require( "widgets" )
 local keys        = require( "keys" )
 local run_once    = require( "helpers" ).run_once
