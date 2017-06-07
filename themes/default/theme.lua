@@ -4,6 +4,11 @@
                                 
 --]]
 
+local gears = require("gears")
+local naughty = require("naughty")
+local inspect = require("util.inspect")
+local surface = require("util.surface")
+
 local theme                               = {}
 
 theme.icon_dir                      = os.getenv("HOME") .. "/.config/awesome/themes/default/icons"
@@ -28,6 +33,9 @@ theme.white                         = "#FFFFFF"
 theme.widget_bg_color = theme.grey_darker
 
 -- beautiful
+theme.wibar_height = 32
+theme.wibar_width  = 32
+
 theme.font                          = "Misc Tamsyn 10.5"
 theme.taglist_font                  = "Misc Tamsyn 8"
 
@@ -43,7 +51,12 @@ theme.border_focus                  = theme.blue
 theme.taglist_bg_empty              = "png:" .. theme.icon_dir .. "/taglist_bg_empty.png"
 theme.taglist_bg_occupied           = "png:" .. theme.icon_dir .. "/taglist_bg_empty.png"
 theme.taglist_fg_focus              = theme.white
-theme.taglist_bg_focus              = "png:" .. theme.icon_dir .. "/taglist_bg_focus.png"
+theme.taglist_bg_focus              = surface.to_pattern(surface.underline(theme.blue, 300, theme.wibar_height))
+--theme.taglist_bg_focus              = "png:" .. theme.icon_dir .. "/taglist_bg_focus.png"
+--theme.taglist_spacing = 10
+
+theme.taglist_squares_sel           = surface.box(theme.blue, 2, 2, 5)
+theme.taglist_squares_unsel         = surface.corner_1px(theme.blue, 2, 2, 5)
 
 theme.tasklist_bg_normal            = theme.grey_darker
 theme.tasklist_fg_focus             = theme.blue_very_light
@@ -81,8 +94,6 @@ theme.border_focus                  = theme.blue
 theme.widget_bg                     = theme.icon_dir .. "/bg_focus_noline.png"
 theme.awesome_icon                  = theme.icon_dir .. "/awesome_icon.png"
 theme.submenu_icon                  = theme.icon_dir .. "/submenu.png"
-theme.taglist_squares_sel           = theme.icon_dir .. "/square_sel.png"
-theme.taglist_squares_unsel         = theme.icon_dir .. "/square_unsel.png"
 theme.spr                           = theme.icon_dir .. "/spr.png"
 theme.bar                           = theme.icon_dir .. "/bar.png"
 theme.bottom_bar                    = theme.icon_dir .. "/bottom_bar.png"

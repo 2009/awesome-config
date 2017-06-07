@@ -12,6 +12,7 @@ local shape 		= require( "gears.shape" )
 
 local mpris     = require( "mpris"   )
 local widgets   = require( "widgets" )
+local cairo     = require( "lgi" ).cairo
 
 local layout = {}
 
@@ -60,6 +61,7 @@ end
 -- Separators
 ---------------------------------------------------------------------
 
+-- TODO can a change this to a cairo surface or gears.shape????
 local spr = wibox.widget.base.make_widget()
 spr.draw = function(self, context, cr, width, height)
   -- Cairo Drawing!!!
@@ -129,6 +131,7 @@ local mpris_widget     = widget_container( nil,      mpris.state.widget,
                                                      mpris.controls.widget,
                                                      volume.widget)
 
+
 -- Attach notification widgets
 storage.attach(storage_widget)
 
@@ -155,7 +158,7 @@ layout.setup = function(screen)
 
   local wibars = {
     top = {
-      args = { position = "top", height = 32 },
+      args = { position = "top", height = beautiful.wibar_height },
       setup = {
         layout = wibox.layout.align.horizontal,
         -- Left widgets
@@ -186,7 +189,7 @@ layout.setup = function(screen)
       }
     },
     bottom = {
-      args = { position = "bottom", height = 32 },
+      args = { position = "bottom", height = beautiful.wibar_height },
       setup = {
         layout = wibox.layout.align.horizontal,
         -- Left widgets
@@ -216,14 +219,14 @@ layout.setup = function(screen)
 
     --[[
     left = {
-      args = { position = "left", width = 32 },
+      args = { position = "left", width = beautiful.wibar_width },
       setup = {
        layout = wibox.layout.align.horizontal,
       }
     },
 
     right = {
-      args = { position = "right", width = 32 },
+      args = { position = "right", width = beautiful.wibar_width },
       setup = {
        layout = wibox.layout.align.horizontal,
       }
