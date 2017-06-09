@@ -15,9 +15,9 @@ theme.wallpaper                     = os.getenv("HOME") .. "/.config/awesome/the
 -- Color Scheme
 ---------------------------------------------------------------------
 
-theme.blue                          = "#0099CC"
-theme.blue_light                    = "#80CCE6"
-theme.blue_very_light               = "#4CB7DB"
+theme.blue                          = "#7AB317"
+theme.blue_light                    = "#A0C55F"
+theme.blue_very_light               = "#9CDA03"
 theme.grey_light                    = "#757575"
 theme.grey                          = "#383838"
 theme.grey_darker                   = "#292929"
