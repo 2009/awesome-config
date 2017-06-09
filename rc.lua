@@ -84,7 +84,7 @@ local terminal         = config.terminal
 local terminal_argname = config.terminal_argname
 
 -- Tags
-local tagnames = { " WEB ", " DEV ", " TERMINAL ", " FILES ", " OTHER " }
+local tagnames = { "WEB", "DEV", "TERMINAL", "FILES", "OTHER" }
 
 -- Enabled layouts
 awful.layout.layouts = {
@@ -94,25 +94,8 @@ awful.layout.layouts = {
 }
 
 ---------------------------------------------------------------------
--- Taglist & Tasklist Mouse Controls
+-- Tasklist Mouse Controls
 ---------------------------------------------------------------------
-
-local taglist_buttons = awful.util.table.join(
-  awful.button({ }, 1, function(t) t:view_only() end),
-  awful.button({ modkey }, 1, function(t)
-    if client.focus then
-      client.focus:move_to_tag(t)
-    end
-  end),
-  awful.button({ }, 3, awful.tag.viewtoggle),
-  awful.button({ modkey }, 3, function(t)
-    if client.focus then
-      client.focus:toggle_tag(t)
-    end
-  end),
-  awful.button({ }, 4, function(t) awful.tag.viewnext(t.screen) end),
-  awful.button({ }, 5, function(t) awful.tag.viewprev(t.screen) end)
-)
 
 local tasklist_buttons = awful.util.table.join(
 	awful.button({ }, 1, function (c)
@@ -186,10 +169,8 @@ awful.screen.connect_for_each_screen(function(s)
                            awful.button({ }, 4, function () awful.layout.inc(1) end),
                            awful.button({ }, 5, function () awful.layout.inc(-1) end)))
 
-    -- Create a taglist widget
-    s.mytaglist = awful.widget.taglist(s, awful.widget.taglist.filter.all, taglist_buttons)
-
     -- Create a tasklist widget
+    -- TODO move this out into its own module
     s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, tasklist_buttons)
 
     ---------------------------------------------------------------------

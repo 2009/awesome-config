@@ -5,6 +5,7 @@
 -- its only requirement is a `setup` method. See below.
 ---------------------------------------------------------------------
 
+local awful     = require( "awful" )
 local wibox     = require( "wibox"     )
 local beautiful = require( "beautiful" )
 local gears     = require( "gears"     )
@@ -12,7 +13,7 @@ local shape 		= require( "gears.shape" )
 
 local mpris     = require( "mpris"   )
 local widgets   = require( "widgets" )
-local cairo     = require( "lgi" ).cairo
+local taglist   = require( "widgets.taglist" )
 
 local layout = {}
 
@@ -150,11 +151,12 @@ widgets.scissors.attach(scissors_widget)
 -- common widgets that are created per screen, these include:
 --   * mytasklist
 --   * mypromptbox
---   * mytaglist
 --   * mylayoutbox
 --
 -- NOTE: For a more difinative list see rc.lua
 layout.setup = function(screen)
+
+  local taglist_widget = taglist(screen, awful.widget.taglist.filter.all)
 
   local wibars = {
     top = {
@@ -164,7 +166,7 @@ layout.setup = function(screen)
         -- Left widgets
         {
           layout = wibox.layout.fixed.horizontal,
-          screen.mytaglist,
+          taglist_widget,
           screen.mylayoutbox,
           screen.mypromptbox,
         },

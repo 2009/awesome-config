@@ -1,6 +1,14 @@
 ---------------------------------------------------------------------
 -- Surface
 ---------------------------------------------------------------------
+-- ___DEPRECATED___________________________________________________
+-- This was initially to allow me to create the tag backgrounds for
+-- when they are selected.
+-- After moving to using a custom update_fuction passed to the
+-- taglist.new(), I can now just set the theme variables to function
+-- that gets the cairo context to draw on, hence these functions are
+-- no longer needed. I will however leave these here for a time.
+-- __________________________________________________________________
 -- This file contains a bunch of functions that create cairo surfaces
 -- used for customization.
 ---------------------------------------------------------------------
@@ -14,7 +22,7 @@ module.underline = function(color, width, height)
   local surface = cairo.ImageSurface.create(cairo.Format.ARGB32, width, height)
   local cr  = cairo.Context(surface)
 
-  local bar_margin = 5
+  local bar_margin = 0
   local bar_height = 2
   local bar_width  = width
   local bar_pos_x  = 0
