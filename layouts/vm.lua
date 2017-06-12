@@ -11,6 +11,7 @@ local gears     = require( "gears"     )
 local shape 		= require( "gears.shape" )
 
 local widgets   = require( "widgets" )
+local taglist   = require( "widgets.taglist" )
 
 local layout = {}
 
@@ -138,6 +139,8 @@ widgets.scissors.attach(scissors_widget)
 -- NOTE: For a more difinative list see rc.lua
 layout.setup = function(screen)
 
+  local taglist_widget = taglist(screen, awful.widget.taglist.filter.all)
+
   local wibars = {
     top = {
       args = { position = "top", height = 32 },
@@ -146,7 +149,7 @@ layout.setup = function(screen)
         -- Left widgets
         {
           layout = wibox.layout.fixed.horizontal,
-          screen.mytaglist,
+          taglist_widget,
           screen.mylayoutbox,
           screen.mypromptbox,
         },
