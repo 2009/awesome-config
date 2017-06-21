@@ -55,9 +55,11 @@ gkey("apps", "Taskwarrior Prompt", { altkey }, "t", lain.widget.contrib.task.pro
 gkey("apps", "Show help", { modkey }, "/", hotkeys.show_help)
 
 -- Tag browsing
-gkey("tag", "Tag prev",      { modkey }, "Left",   awful.tag.viewprev       )
-gkey("tag", "Tag next",      { modkey }, "Right",  awful.tag.viewnext       )
-gkey("tag", "Tag alternate", { modkey }, "Escape", awful.tag.history.restore)
+gkey("tag", "Tag prev",       { modkey }, "Left",   awful.tag.viewprev)
+gkey("tag", "Tag next",       { modkey }, "Right",  awful.tag.viewnext)
+gkey("tag", "Tag prev (alt)", { modkey, altkey }, "j", awful.tag.viewprev)
+gkey("tag", "Tag next (alt)", { modkey, altkey }, "k", awful.tag.viewnext)
+gkey("tag", "Tag alternate",  { modkey }, "Escape", awful.tag.history.restore)
 
 -- Non-empty tag browsing
 gkey("tag", "Tag prev (non-empty)", { altkey }, "Left", function () lain.util.tag_view_nonempty(-1) end)
