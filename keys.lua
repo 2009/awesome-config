@@ -7,6 +7,7 @@ local lain     = require( "lain" )
 local config   = require( "config" )
 local widgets  = require( "widgets" )
 local hotkeys  = require( "awful.hotkeys_popup.widget" )
+local tags     = require( "util.dynamic_tagging" )
 
 local global = { root = root }
 local os     = { execute = os.execute }
@@ -66,11 +67,11 @@ gkey("tag", "Tag prev (non-empty)", { altkey }, "Left", function () lain.util.ta
 gkey("tag", "Tag next (non-empty)", { altkey }, "Right", function () lain.util.tag_view_nonempty(1) end)
 
 -- Dynamic tagging
-gkey("tag", "Add new tag",    { modkey, "Shift" }, "n", function () lain.util.add_tag() end)
-gkey("tag", "Rename tag",     { modkey, "Shift" }, "r", function () lain.util.rename_tag() end)
-gkey("tag", "Move tag left",  { modkey, "Shift" }, "Left", function () lain.util.move_tag(-1) end)  -- move to previous tag
-gkey("tag", "Move tag right", { modkey, "Shift" }, "Right", function () lain.util.move_tag(1) end)  -- move to next tag
-gkey("tag", "Delete tag",     { modkey, "Shift" }, "d", function () lain.util.delete_tag() end)
+gkey("tag", "Add new tag",    { modkey, "Shift" }, "n", function () tags.add_tag() end)
+gkey("tag", "Rename tag",     { modkey, "Shift" }, "r", function () tags.rename_tag() end)
+gkey("tag", "Move tag left",  { modkey, "Shift" }, "Left", function () tags.move_tag(-1) end)  -- move to previous tag
+gkey("tag", "Move tag right", { modkey, "Shift" }, "Right", function () tags.move_tag(1) end)  -- move to next tag
+gkey("tag", "Delete tag",     { modkey, "Shift" }, "d", function () tags.delete_tag() end)
 
 -- Default client focus
 gkey("client", "Client focus next", { altkey }, "k", function ()
