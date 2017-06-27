@@ -155,11 +155,11 @@ theme.mpris               = {}
 theme.mpris.font          = "Misc Tamsyn 8"
 theme.mpris.artist        = theme.blue
 theme.mpris.status        = theme.blue_light
-theme.mpris.prev          = theme.icon_dir .. "/prev.png"
-theme.mpris.next          = theme.icon_dir .. "/next.png"
-theme.mpris.stop          = theme.icon_dir .. "/stop.png"
-theme.mpris.pause         = theme.icon_dir .. "/pause.png"
-theme.mpris.play          = theme.icon_dir .. "/play.png"
+theme.mpris.prev          = theme.icon_dir .. "/mpris/back.svg"
+theme.mpris.next          = theme.icon_dir .. "/mpris/forward.svg"
+theme.mpris.stop          = theme.icon_dir .. "/mpris/stop.svg"
+theme.mpris.pause         = theme.icon_dir .. "/mpris/pause.svg"
+theme.mpris.play          = theme.icon_dir .. "/mpris/play.svg"
 
 -- other colors
 theme.border_focus        = theme.blue

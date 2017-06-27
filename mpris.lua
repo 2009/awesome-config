@@ -14,6 +14,7 @@ local beautiful = require( "beautiful" )
 local wibox     = require( "wibox"     )
 local naughty   = require( "naughty"   )
 local awful     = require( "awful"     )
+local svgbox    = require( "util.svgbox" )
 local run_once  = require( "helpers"   ).run_once
 local finit     = require( "helpers"   ).finit
 
@@ -35,10 +36,10 @@ end
 ---------------------------------------------------------------------
 
 local controls = {}
-controls.prev_button = wibox.widget.imagebox(beautiful.mpris.prev)
-controls.next_button = wibox.widget.imagebox(beautiful.mpris.next)
-controls.stop_button = wibox.widget.imagebox(beautiful.mpris.stop)
-controls.play_button = wibox.widget.imagebox(beautiful.mpris.play)
+controls.prev_button = svgbox(beautiful.mpris.prev)
+controls.next_button = svgbox(beautiful.mpris.next)
+controls.stop_button = svgbox(beautiful.mpris.stop)
+controls.play_button = svgbox(beautiful.mpris.play)
 
 -- Media Functions
 controls.prev       = function () awful.spawn.easy_async("playerctl previous",  module.now_playing.update) end
@@ -53,12 +54,13 @@ controls.play_button:buttons(awful.util.table.join(awful.button({}, 1, controls.
 controls.stop_button:buttons(awful.util.table.join(awful.button({}, 1, controls.stop       )))
 
 -- Package into a widget!
-controls.widget = wibox.layout.fixed.horizontal(
+controls.widget_layout = wibox.layout.fixed.horizontal(
   controls.stop_button,
   controls.play_button,
   controls.prev_button,
   controls.next_button
 )
+controls.widget = wibox.container.margin(controls.widget_layout, 6, 6, 6, 6, beautiful.grey_light)
 
 -- Add controls to the module
 module.controls = controls
