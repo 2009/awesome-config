@@ -239,11 +239,12 @@ widgets.storage = finit(lain.widget.fs, {
 -- TODO Update the sink when pluggin in headphones or changing the default
 -- TODO Do I want to display the notification?
 
+local sink = 0
 local step = "5%"
 local mixer = 'pavucontrol'
 
 widgets.volume = finit(lain.widget.pulsebar, {
-    sink   = 0,
+    sink   = sink,
     ticks  = true,
     ticks_size = 3,
     width  = 80,
@@ -291,6 +292,10 @@ widgets.volume = finit(lain.widget.pulsebar, {
 
     widget.widget = wibox.container.margin(widget.bar, 0, 0, 10, 10)
   end)
+
+-- Add settings to the volume widget, needed by keys
+widgets.volume.sink = sink
+widgets.volume.step = step
 
 return widgets
 

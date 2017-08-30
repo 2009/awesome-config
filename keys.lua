@@ -177,6 +177,9 @@ gkey("not_done", "Volume down", {}, "XF86AudioLowerVolume", function()
   widgets.volume.update()
 end)
 
+-- Lock Key
+gkey("not_done", "Lock Screen", { modkey, altkey }, "l", function () os.execute("xscreensaver-command --lock") end)
+
 -- Bind all key numbers to tags.
 -- be careful: we use keycodes to make it works on any keyboard layout.
 -- This should map on the top row of your keyboard, usually 1 to 9.
