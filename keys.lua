@@ -170,11 +170,11 @@ gkey("laptop", "Brightness down", {}, "XF86MonBrightnessDown", function () os.ex
 -- Volume Keys
 gkey("not_done", "Volume up", {}, "XF86AudioRaiseVolume", function()
   os.execute(string.format("pactl set-sink-volume %d +%s", widgets.volume.sink, widgets.volume.step))
-  widgets.volume.update()
+  widgets.volume.instance.update()
 end)
 gkey("not_done", "Volume down", {}, "XF86AudioLowerVolume", function()
   os.execute(string.format("pactl set-sink-volume %d -%s", widgets.volume.sink, widgets.volume.step))
-  widgets.volume.update()
+  widgets.volume.instance.update()
 end)
 
 -- Lock Key

@@ -40,6 +40,7 @@ helpers.finit = function(factory, fargs, oninit)
     -- Perform and setup that may be needed after the factory instance is created
     if oninit then
       oninit(instance)
+      t.instance = instance
     end
 
     -- Return the initialized instance
