@@ -67,26 +67,27 @@ module.controls = controls
 -- State Widget
 ---------------------------------------------------------------------
 
-module.state = lain.widget.watch {
-  cmd = "playerctl status",
-  timeout = 1,
-  settings = function()
-    local state = string.match(output, "Playing") or
-                  string.match(output, "Paused")  or
-                  "not_found"
+module.state = { widget = wibox.widget.textbox() }
+module.state.init = function()
+  awful.widget.watch("playerctl status", 1, function(widget, output)
+      local state = string.match(output, "Playing") or
+                    string.match(output, "Paused")  or
+                    "not_found"
 
-    if state == "Playing" then
-        widget:set_markup( font("[NOW PLAYING]") )
-        controls.play_button:set_image(beautiful.mpris.pause)
-    elseif state == "Paused" then
-        widget:set_markup( font("[PAUSED]") )
-        controls.play_button:set_image(beautiful.mpris.play)
-    else
-        widget:set_markup( font("[OPEN SPOTIFY]") )
-        controls.play_button:set_image(beautiful.mpris.play)
-    end
-  end
-}
+      if state == "Playing" then
+          widget:set_markup( font("[NOW PLAYING]") )
+          controls.play_button:set_image(beautiful.mpris.pause)
+      elseif state == "Paused" then
+          widget:set_markup( font("[PAUSED]") )
+          controls.play_button:set_image(beautiful.mpris.play)
+      else
+          widget:set_markup( font("[OPEN SPOTIFY]") )
+          controls.play_button:set_image(beautiful.mpris.play)
+      end
+  end, module.state.widget)
+
+  return module.state
+end
 
 -- Launch spotify
 module.state.widget:buttons(awful.util.table.join(awful.button({}, 1, function () run_once("spotify") end)))
@@ -95,10 +96,9 @@ module.state.widget:buttons(awful.util.table.join(awful.button({}, 1, function (
 -- Now Playing Widget
 ---------------------------------------------------------------------
 
-module.now_playing = lain.widget.watch {
-  cmd = "playerctl metadata",
-  timeout = 1,
-  settings = function()
+module.now_playing = { widget = wibox.widget.textbox() }
+module.now_playing.init = function()
+  awful.widget.watch("playerctl metadata", 1, function(widget, output)
     local mpris_now = {
       state        = "N/A",
       artist       = "N/A",
@@ -123,8 +123,10 @@ module.now_playing = lain.widget.watch {
     -- Update widget text
     local artist = markup.fg.color(beautiful.mpris.artist, mpris_now.artist)
     widget:set_markup( font(artist .. " - " .. mpris_now.title) )
-  end
-}
+  end, module.now_playing.widget)
+
+  return module.now_playing
+end
 
 return module
 

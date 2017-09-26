@@ -83,15 +83,15 @@ end
 -- Taskwarrior
 ---------------------------------------------------------------------
 
-widgets.task = finit(lain.widget.watch, {
-    cmd = "task count",
-    timeout = 1,
-    settings = function()
-      local count  = output and string.match(output, "[%d]+") or 0
-      widget:set_text(count)
-    end
-  }
-)
+widgets.task = { widget = wibox.widget.textbox() }
+widgets.task.init = function()
+  awful.widget.watch("task count", 1, function(widget, output)
+    local count  = output and string.match(output, "[%d]+") or 0
+    widget:set_text(count)
+  end, widgets.task.widget)
+
+  return widgets.task
+end
 
 widgets.task.attach = function(widget)
   lain.widget.contrib.task.attach(widget, {
@@ -175,22 +175,22 @@ widgets.system_load = finit(lain.widget.sysload, {
 -- Uptime
 ---------------------------------------------------------------------
 
-widgets.uptime = finit(lain.widget.watch, {
-    cmd = "cat /proc/uptime",
-    timeout = 1,
-    settings = function()
+widgets.uptime = { widget = wibox.widget.textbox() }
+widgets.uptime.init = function()
+  awful.widget.watch("cat /proc/uptime", 1, function(widget, output)
 
-      -- Get system uptime
-      local uptime  = output and string.match(output, "[%d]+") or 0
-      local up      = math.floor(uptime)
-      local days    = math.floor(up   / (3600 * 24))
-      local hours   = math.floor((up  % (3600 * 24)) / 3600)
-      local minutes = math.floor(((up % (3600 * 24)) % 3600) / 60)
+    -- Get system uptime
+    local uptime  = output and string.match(output, "[%d]+") or 0
+    local up      = math.floor(uptime)
+    local days    = math.floor(up   / (3600 * 24))
+    local hours   = math.floor((up  % (3600 * 24)) / 3600)
+    local minutes = math.floor(((up % (3600 * 24)) % 3600) / 60)
 
-      widget:set_markup(days .. "d " .. hours .. "h " .. minutes .. "m")
-    end
-  }
-)
+    widget:set_markup(days .. "d " .. hours .. "h " .. minutes .. "m")
+  end, widgets.uptime.widget)
+
+  return widgets.uptime
+end
 
 ---------------------------------------------------------------------
 -- Network Upload/Download
@@ -236,15 +236,72 @@ widgets.storage = finit(lain.widget.fs, {
 ---------------------------------------------------------------------
 -- PulsAudio Volume Bar
 ---------------------------------------------------------------------
--- TODO Update the sink when pluggin in headphones or changing the default
--- TODO Do I want to display the notification?
-
-local sink = 0
 local step = "5%"
 local mixer = 'pavucontrol'
 
 widgets.volume = finit(lain.widget.pulsebar, {
-    sink   = sink,
+    devicetype = "sink",
+    ticks  = true,
+    ticks_size = 3,
+    width  = 80,
+    followtag = true,
+    colors = {
+      -- TODO cleanup vars
+      background = beautiful.widget_vol_bg,
+      unmute     = beautiful.widget_vol_fg,
+      mute       = beautiful.widget_vol_mute
+    },
+    notification_preset = {
+      font      = "Misc Tamsyn",
+      font_size = "12",
+      bar_size  = 32
+    }
+  },
+  function(widget)
+
+    -- Mouse controls
+    widget.bar:buttons(awful.util.table.join(
+       awful.button({}, 1, function()
+         widget.update()
+         widget.notify()
+         awful.util.spawn(mixer)
+       end),
+       awful.button({}, 2, function()
+         awful.util.spawn(string.format("pactl set-" .. widget.devicetype .. "-volume %d 100%%", widget.device))
+         widget.update()
+         widget.notify()
+       end),
+       awful.button({}, 3, function()
+         awful.util.spawn(string.format("pactl set-" .. widget.devicetype .. "-mute %d toggle", widget.device))
+         widget.update()
+         widget.notify()
+       end),
+       awful.button({}, 4, function()
+         awful.util.spawn(string.format("pactl set-" .. widget.devicetype .. "-volume %d +%s", widget.device, step))
+         widget.update()
+         widget.notify()
+       end),
+       awful.button({}, 5, function()
+         awful.util.spawn(string.format("pactl set-" .. widget.devicetype .. "-volume %d -%s", widget.device, step))
+         widget.update()
+         widget.notify()
+       end)
+    ))
+
+    widget.widget = wibox.container.margin(widget.bar, 0, 0, 10, 10)
+  end)
+
+-- Add settings to the volume widget, needed by keys
+widgets.volume.step = step
+
+---------------------------------------------------------------------
+-- PulsAudio Volume Bar (input volume)
+---------------------------------------------------------------------
+local step = "5%"
+local mixer = 'pavucontrol'
+
+widgets.volume_input = finit(lain.widget.pulsebar, {
+    devicetype = "source",
     ticks  = true,
     ticks_size = 3,
     width  = 80,
@@ -266,25 +323,27 @@ widgets.volume = finit(lain.widget.pulsebar, {
     -- Mouse controls
     widget.bar:buttons(awful.util.table.join(
        awful.button({}, 1, function()
+         widget.update()
+         widget.notify()
          awful.util.spawn(mixer)
        end),
        awful.button({}, 2, function()
-         awful.util.spawn(string.format("pactl set-sink-volume %d 100%%", widget.sink))
+         awful.util.spawn(string.format("pactl set-" .. widget.devicetype .. "-volume %d 100%%", widget.device))
          widget.update()
          widget.notify()
        end),
        awful.button({}, 3, function()
-         awful.util.spawn(string.format("pactl set-sink-mute %d toggle", widget.sink))
+         awful.util.spawn(string.format("pactl set-" .. widget.devicetype .. "-mute %d toggle", widget.device))
          widget.update()
          widget.notify()
        end),
        awful.button({}, 4, function()
-         awful.util.spawn(string.format("pactl set-sink-volume %d +%s", widget.sink, step))
+         awful.util.spawn(string.format("pactl set-" .. widget.devicetype .. "-volume %d +%s", widget.device, step))
          widget.update()
          widget.notify()
        end),
        awful.button({}, 5, function()
-         awful.util.spawn(string.format("pactl set-sink-volume %d -%s", widget.sink, step))
+         awful.util.spawn(string.format("pactl set-" .. widget.devicetype .. "-volume %d -%s", widget.device, step))
          widget.update()
          widget.notify()
        end)
@@ -294,8 +353,7 @@ widgets.volume = finit(lain.widget.pulsebar, {
   end)
 
 -- Add settings to the volume widget, needed by keys
-widgets.volume.sink = sink
-widgets.volume.step = step
+widgets.volume_input.step = step
 
 return widgets
 
