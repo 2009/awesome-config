@@ -68,8 +68,16 @@ module.controls = controls
 ---------------------------------------------------------------------
 
 module.state = { widget = wibox.widget.textbox() }
+module.state.update = function()
+  if module.state.t then
+    -- emit the timeout signal to instantly update the widget attached
+    -- to awful.widget.watch
+    module.state.t:emit_signal("timeout")
+  end
+end
 module.state.init = function()
-  awful.widget.watch("playerctl status", 1, function(widget, output)
+  -- t is the timer for watch
+  local widget, t = awful.widget.watch("playerctl status", 1, function(widget, output)
       local state = string.match(output, "Playing") or
                     string.match(output, "Paused")  or
                     "not_found"
@@ -85,7 +93,7 @@ module.state.init = function()
           controls.play_button:set_image(beautiful.mpris.play)
       end
   end, module.state.widget)
-
+  module.state.t = t;
   return module.state
 end
 
@@ -97,8 +105,15 @@ module.state.widget:buttons(awful.util.table.join(awful.button({}, 1, function (
 ---------------------------------------------------------------------
 
 module.now_playing = { widget = wibox.widget.textbox() }
+module.now_playing.update = function()
+  if module.state.t then
+    -- emit the timeout signal to instantly update the widget attached
+    -- to awful.widget.watch
+    module.state.t:emit_signal("timeout")
+  end
+end
 module.now_playing.init = function()
-  awful.widget.watch("playerctl metadata", 1, function(widget, output)
+  local widget, t = awful.widget.watch("playerctl metadata", 1, function(widget, output)
     local mpris_now = {
       state        = "N/A",
       artist       = "N/A",
@@ -124,6 +139,8 @@ module.now_playing.init = function()
     local artist = markup.fg.color(beautiful.mpris.artist, mpris_now.artist)
     widget:set_markup( font(artist .. " - " .. mpris_now.title) )
   end, module.now_playing.widget)
+
+  module.now_playing.t = t;
 
   return module.now_playing
 end
