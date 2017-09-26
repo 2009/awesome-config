@@ -107,11 +107,8 @@ local battery     = widgets.battery.init()
 local task        = widgets.task.init()
 local countdown   = widgets.countdown.init()
 local volume      = widgets.volume.init()
-
--- TODO mpris widgets with same init style
---local state       = mpris.stat.init()
---local now_playing = mpris.now_playing.init()
---local controls    = mpris.controls.init()
+local state       = mpris.state.init()
+local now_playing = mpris.now_playing.init()
 
 -- Local Widget Variablse
 local time_widget      = widget_container( "TIME",   time )
@@ -127,8 +124,8 @@ local battery_widget   = widget_container( "BAT",    battery.widget )
 local task_widget      = widget_container( "TW",     task.widget )
 local countdown_widget = widget_container( "♥",      countdown.widget )
 local scissors_widget  = widget_container( "✂",      nil)
-local mpris_widget     = widget_container( nil,      mpris.state.widget,
-                                                     mpris.now_playing.widget,
+local mpris_widget     = widget_container( nil,      state.widget,
+                                                     now_playing.widget,
                                                      mpris.controls.widget,
                                                      volume.widget)
 
