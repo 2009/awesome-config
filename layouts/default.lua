@@ -55,7 +55,7 @@ local function widget_container(label, ...)
 	end
 
 	-- Put the together in a layout
-	return wibox.layout.fixed.horizontal(unpack(widgets))
+	return wibox.layout.fixed.horizontal(table.unpack(widgets))
 end
 
 ---------------------------------------------------------------------
